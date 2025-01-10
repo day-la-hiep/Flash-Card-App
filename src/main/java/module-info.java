@@ -13,7 +13,6 @@ module com.noface.flashcard {
     opens com.noface.flashcard.model;
     opens com.noface.flashcard.controller;
     opens com.noface.flashcard.view;
-    // opens com.noface.flashcard.topic;
     opens com.noface.flashcard.utils;
     opens com.noface.flashcard to javafx.fxml;
     exports com.noface.flashcard;

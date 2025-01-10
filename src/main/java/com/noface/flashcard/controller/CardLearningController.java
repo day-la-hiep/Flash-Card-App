@@ -2,8 +2,8 @@ package com.noface.flashcard.controller;
 
 import java.io.IOException;
 
-import com.noface.englishapp.view.CardLearningScreen;
 import com.noface.flashcard.model.Card;
+import com.noface.flashcard.view.CardLearningScreen;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
