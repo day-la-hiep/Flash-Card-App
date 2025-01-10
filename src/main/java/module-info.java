@@ -15,6 +15,10 @@ module com.noface.flashcard {
     // opens com.noface.flashcard.view;
     // opens com.noface.flashcard.utils;
     // opens com.noface.flashcard to javafx.fxml;
+<<<<<<< HEAD
     opens com.noface.flashcard.cardLearning to javafx.fxml;
     exports com.noface.flashcard;
+=======
+    // exports com.noface.flashcard;
+>>>>>>> develop
 }
