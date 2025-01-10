@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.web.WebView?>
 
 <VBox fx:id="root" alignment="BOTTOM_CENTER" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@CardLearningScreenStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -19,27 +18,14 @@
                <children>
                   <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <items>
-                        <VBox fx:id="cardViewContainer" alignment="TOP_CENTER" prefHeight="10000.0" prefWidth="10000.0" styleClass="left-vbox">
+                        <VBox alignment="CENTER" styleClass="vbox-web-view">
                            <children>
-                              <SplitPane dividerPositions="0.5" orientation="VERTICAL" VBox.vgrow="ALWAYS">
-                                 <items>
-                                    <VBox alignment="CENTER" styleClass="vbox-web-view">
-                                       <children>
-                                          <WebView fx:id="frontView" prefHeight="200.0" prefWidth="200.0" styleClass="custom-web-view" VBox.vgrow="ALWAYS" />
-                                       </children>
-                                    </VBox>
-                                    <VBox styleClass="vbox-web-view">
-                                       <children>
-                                          <WebView fx:id="backView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                                       </children>
-                                    </VBox>
-                                 </items>
-                              </SplitPane>
+                              <TextArea fx:id="frontView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
-                        <VBox styleClass="left-vbox">
+                        <VBox styleClass="vbox-web-view">
                            <children>
-                              <TextArea prefHeight="419.0" prefWidth="297.0" VBox.vgrow="ALWAYS" />
+                              <TextArea fx:id="backView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                      </items>

@@ -59,10 +59,13 @@ public class Card{
         return new Comparator<Card>() {
             @Override
             public int compare(Card o1, Card o2) {
-                return LocalDateTime.parse(
-                        o1.dueTime.get()).compareTo(LocalDateTime.parse(o2.dueTime.get()));
+                return compareDate(o1, o2);
             }
         };
+    }
+    public static int compareDate(Card o1, Card o2){
+        return LocalDateTime.parse(
+            o1.dueTime.get()).compareTo(LocalDateTime.parse(o2.dueTime.get()));
     }
 
     public String getName() {
