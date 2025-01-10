@@ -4,35 +4,21 @@ package com.noface.flashcard.view;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
-import com.noface.flashcard.controller.CardLearningInteractor;
+import com.noface.flashcard.controller.CardLearningController;
 import com.noface.flashcard.model.Card;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 
 public class CardLearningScreen {
@@ -56,6 +42,7 @@ public class CardLearningScreen {
     private MainScreen mainScreen;
 
 
+
     public void setMainScreen(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
     }
@@ -64,56 +51,34 @@ public class CardLearningScreen {
     public <T> T getRoot(){
         return loader.getRoot();
     }
-
-    public CardLearningScreen() throws IOException {
+    ObjectProperty<Card> card = new SimpleObjectProperty<>();
+    Binding<String> frontContent = Bindings.createObjectBinding(() -> {
+        if(card.get() == null){
+            return null;
+        }
+        return card.get().getFrontContent();
+    }, card);
+    Binding<String> backContent = Bindings.createObjectBinding(() -> {
+        if(card.get() == null){
+            return null;
+        }
+        return card.get().getBackContent();
+    }, card);
+    private CardLearningController controller;
+    public CardLearningScreen(CardLearningController controller) throws IOException {
+        this.controller = controller;
+        card.bind(controller.cardPropertyProperty());
         loader = new FXMLLoader(this.getClass().getResource("CardLearningScreen.fxml"));
         loader.setController(this);
         loader.load();
-    }
-    private final StringProperty frontContent = new SimpleStringProperty();
-    private final StringProperty backContent = new SimpleStringProperty();
-    private final BooleanProperty cardToLearnAvailabled = new SimpleBooleanProperty();
-    public CardLearningScreen(CardLearningInteractor interactor) throws IOException {
-        this();
-        this.interactor = interactor;
-        backContent.bind(interactor.backContentPropertyProperty());
-        frontContent.bind(interactor.frontContentPropertyProperty());
-        cardToLearnAvailabled.bind(interactor.cardAvailabledProperty());
-        cardToLearnAvailabled.addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                handleCardToLearnAvailabledStatusChange(observable, oldValue, newValue);
-            }
-        });
-        handleBackCardShowedChange(cardToLearnAvailabled, true, true);
-
-    }
-
-    private void handleCardToLearnAvailabledStatusChange(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-        if(newValue == true){
-            mainLearningArea.setVisible(true);
-            doneLearningLabel.setVisible(false);
-        }else{
-            mainLearningArea.setVisible(false);
-            doneLearningLabel.setVisible(true);
-        }
     }
 
     @FXML
     public void initialize(){
         addCustomScreenComponent();
-        configureScreenComponentEvent();
     }
 
-
-
-    private CardLearningInteractor interactor;
-
-    private Queue<Card> cards = new PriorityQueue<>(Card.comparatorByDueTimeNearest());
-    private ListProperty<Card> cardListProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
-
-
-
+    public final long[] repetitionTimes = {60, 360, 600, 3 * 24 * 60 * 60};
     private List<Button> selectRepetitionButtons = new ArrayList<>();
     public final String[] repetitionLabels = {"Again - 1 minutes", "Hard - 6 minutes", "Good - 10 minutes", "Easy - 3 days"};
     public void addCustomScreenComponent(){
@@ -123,94 +88,9 @@ public class CardLearningScreen {
             selectRepetitionButtons.add(selectRepetitionButton);
             doneButtonBar.getChildren().add(selectRepetitionButton);
             HBox.setMargin(selectRepetitionButton, new Insets(0, 5, 0, 5));
+            selectRepetitionButton.setOnAction(controller.handleSelectRepetitionButtonClicked(
+                    repetitionTimes[i]));
         }
-    }
-    private final BooleanProperty backCardShowed = new SimpleBooleanProperty();
-    public final long[] repetitionTimes = {60, 360, 600, 3 * 24 * 60 * 60};
-    public void configureScreenComponentEvent() {
-        for (int i = 0; i < repetitionTimes.length; i++) {
-            Button button = selectRepetitionButtons.get(i);
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    handleRepititionSelectButtonClicked(event);
-                }
-            });
-        }
-
-
-        showAnswerButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                handleShowAnswerButtonClicked(event);
-            }
-        });
-
-
-        backCardShowed.addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                handleBackCardShowedChange(observable, oldValue, newValue);
-            }
-        });
-        backCardShowed.set(true);
-
-        cardEditButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                handleEditButtonClicked(actionEvent);
-            }
-        });
-    }
-    public void startShowing(){
-        if(cardToLearnAvailabled.get() == false){
-            handleCardToLearnAvailabledStatusChange(cardToLearnAvailabled, false, false);
-        }else{
-            backCardShowed.set(false);
-            handleCardToLearnAvailabledStatusChange(cardToLearnAvailabled, true, true);
-            handleBackCardShowedChange(backCardShowed, false, false);
-        }
-    }
-    public void handleBackCardShowedChange(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue){
-        if(newValue.equals(true)){
-            showAnswerButton.setVisible(false);
-            doneButtonBar.setVisible(true);
-            frontView.getEngine().loadContent(frontContent.get());
-            backView.getEngine().loadContent(backContent.get());
-        }else{
-            showAnswerButton.setVisible(true);
-            doneButtonBar.setVisible(false);
-            frontView.getEngine().loadContent(frontContent.get());
-            backView.getEngine().loadContent("");
-        }
-    }
-    public void handleEditButtonClicked(ActionEvent event){
-        Stage stage = new Stage();
-        try {
-            CardEditingScreen screen = new CardEditingScreen();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(new Scene(screen.getRoot()));
-            screen.connect(interactor.getCurrentCard());
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent windowEvent) {
-                    interactor.saveEditedCard(interactor.getCurrentCard());
-                    startShowing();
-                }
-            });
-            stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-    public void handleShowAnswerButtonClicked(ActionEvent event) {
-        backCardShowed.set(true);
-    }
-    public void handleRepititionSelectButtonClicked(ActionEvent event) {
-        interactor.plusCardDueTime(repetitionTimes[selectRepetitionButtons.indexOf(event.getSource())]);
-        interactor.changeToNextCard();
-        backCardShowed.set(false);
     }
 
 }

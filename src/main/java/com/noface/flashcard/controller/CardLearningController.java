@@ -1,30 +1,41 @@
 package com.noface.flashcard.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.noface.flashcard.model.Card;
 import com.noface.flashcard.view.CardLearningScreen;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 public class CardLearningController {
-    private ListProperty<Card> cardListProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
-    private Card card;
+    private List<Card> cards = new ArrayList<>();
+    private ObjectProperty<Card> cardProperty = new SimpleObjectProperty<>();
     private CardLearningScreen cardLearningScreen;
-    private CardLearningInteractor interactor;
 
     public CardLearningController() throws IOException {
-        interactor = new CardLearningInteractor();
-        cardLearningScreen = new CardLearningScreen(interactor);
-
+        cardLearningScreen = new CardLearningScreen(this);
     }
     public void loadCardByTopic(String topicTitle){
-        interactor.loadByTopicTitle(topicTitle);
-        cardLearningScreen.startShowing();
     }
     public CardLearningScreen getScreen() {
         return cardLearningScreen;
+    }
+
+    public Card getCardProperty() {
+        return cardProperty.get();
+    }
+
+    public ObjectProperty<Card> cardPropertyProperty() {
+        return cardProperty;
+    }
+
+    public EventHandler<ActionEvent> handleSelectRepetitionButtonClicked(long repetitionTime) {
+        Card card = cardProperty.get();
+        card.setDueTime(card.getDueTime() + repetitionTime);
     }
 }
