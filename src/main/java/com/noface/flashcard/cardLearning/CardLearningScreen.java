@@ -55,7 +55,7 @@ public class CardLearningScreen {
     public CardLearningScreen(CardLearningController controller) throws IOException {
         this.controller = controller;
         loader = new FXMLLoader(this.getClass().getResource("CardLearningScreen.fxml"));
-        loader.setController(this);
+        loader.setController(this); 
         loader.load();
         createBinding();
 

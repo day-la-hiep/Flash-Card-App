@@ -8,6 +8,7 @@ module com.noface.flashcard {
     requires org.json;
     requires org.slf4j;
     requires java.desktop;
+   requires javafx.graphics;
 
 
     // opens com.noface.flashcard.model;
@@ -16,5 +17,6 @@ module com.noface.flashcard {
     // opens com.noface.flashcard.utils;
     // opens com.noface.flashcard to javafx.fxml;
     opens com.noface.flashcard.cardLearning to javafx.fxml;
+    opens com.noface.flashcard.cardLibrary to javafx.fxml;
     exports com.noface.flashcard;
 }
