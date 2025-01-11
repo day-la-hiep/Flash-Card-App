@@ -22,7 +22,7 @@ public class ResourceLoader {
                         String.format("Card %d", i + 1),
                         String.format("Front content %d", i + 1),
                         String.format("Back content %d", i + 1),
-                        "Topic", LocalDateTime.now().minusDays(i).toString());
+                        LocalDateTime.now().minusDays(i).toString());
                 resourceLoader.cards.add(card);
             }
             resourceLoader.data = new HashMap<>();
@@ -34,9 +34,9 @@ public class ResourceLoader {
                 for(int j = 0; j < 10; j++){
                     Card card = new Card(
                         String.format("Card %d", i + 1),
-                        String.format("Front content %d", i + 1),
+                        String.format("Front content %d %d", i + 1, j + 1),
                         String.format("Back content %d", i + 1),
-                        topic, LocalDateTime.now().minusDays(i).toString());
+                        LocalDateTime.now().minusDays(i).toString());
                     tmp.get(topic).add(card);
                 }
             }

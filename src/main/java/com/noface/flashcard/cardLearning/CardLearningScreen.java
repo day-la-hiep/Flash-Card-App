@@ -41,6 +41,7 @@ public class CardLearningScreen {
     @FXML
     private HBox doneButtonBar;
 
+
     private FXMLLoader loader;
     public <T> T getRoot(){
         return loader.getRoot();

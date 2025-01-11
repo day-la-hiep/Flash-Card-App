@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.noface.flashcard.cardLearning.CardLearningController;
@@ -12,7 +13,7 @@ import com.noface.flashcard.model.Card;
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,31 +24,36 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class CardLibraryScreen implements Initializable{
-   
+public class CardLibraryScreen implements Initializable {
 
    private FXMLLoader loader;
    private CardLibraryController cardLibraryController;
    private CardLearningController cardLearningController;
    @FXML
-   private TableView<String> topicTable;
+   private TableView<StringProperty> topicTable;
    @FXML
    private TableView<Card> cardTable;
    @FXML
    private Button learnButton;
+   @FXML
+   private Button renameButton;
+   @FXML
+   private Button deleteTopicButton;
+
    private EditCardDialog editCardDialog = new EditCardDialog();
 
-   public CardLibraryScreen(CardLibraryController cardLibraryController, CardLearningController cardLearningController) throws IOException {
+   public CardLibraryScreen(CardLibraryController cardLibraryController, CardLearningController cardLearningController)
+         throws IOException {
       this.cardLibraryController = cardLibraryController;
       this.cardLearningController = cardLearningController;
       loader = new FXMLLoader(this.getClass().getResource("CardLibraryScreen.fxml"));
       loader.setController(this);
       loader.load();
    }
-
 
    @Override
    public void initialize(URL location, ResourceBundle resources) {
@@ -57,7 +63,7 @@ public class CardLibraryScreen implements Initializable{
       learnButton.setOnAction(e -> {
          cardLibraryController.startLearn();
          Parent root = cardLearningController.getScreen().getRoot();
-         if(root.getScene() == null){
+         if (root.getScene() == null) {
             Scene scene = new Scene(root);
          }
 
@@ -69,8 +75,41 @@ public class CardLibraryScreen implements Initializable{
          showScreen();
       });
 
+      renameButton.setOnAction(e -> {
+         StringProperty topicProperty = topicTable.getSelectionModel().getSelectedItem();
+         if (topicProperty != null) {
+            try {
+               TextInputDialog dialog = new TextInputDialog();
+               dialog.setTitle("New topic name");
+               dialog.setHeaderText("Enter your new topic name");
+               dialog.setContentText("Name: ");
+               dialog.getEditor().setText(topicProperty.get());
+               Optional<String> result = dialog.showAndWait();
+
+               result.ifPresent(name -> {
+                  try {
+                     cardLibraryController.renameCurrentTopicTo(name);
+                     topicProperty.set(name);
+                  } catch (Exception e2) {
+
+                  }
+               });
+            } catch (Exception e1) {
+
+            }
+         }
+
+      });
+
+      deleteTopicButton.setOnAction(e -> {
+         int topicIndex = topicTable.getSelectionModel().getFocusedIndex();
+         cardLibraryController.removeCurrentTopic();
+         cardLibraryController.setCardsByTopic(topicTable.getSelectionModel().getSelectedItem().get());
+      });
+
    }
-   public void bindingTableToController(CardLibraryController controller){
+
+   public void bindingTableToController(CardLibraryController controller) {
       topicTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
       cardTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -102,7 +141,7 @@ public class CardLibraryScreen implements Initializable{
       });
 
       TableColumn<Card, Button> editButtonColumn = new TableColumn<>("");
-      editButtonColumn.setPrefWidth(50);  
+      editButtonColumn.setPrefWidth(50);
       editButtonColumn.setResizable(false);
       editButtonColumn.setCellValueFactory(cellData -> {
          Button button = new Button("Edit");
@@ -111,7 +150,7 @@ public class CardLibraryScreen implements Initializable{
          button.setOnAction(e -> {
             editCardDialog.setCard(cellData.getValue());
             Parent root = editCardDialog.getRoot();
-            if(root.getScene() == null){
+            if (root.getScene() == null) {
                Scene scene = new Scene(root);
             }
             Stage stage = new Stage();
@@ -122,29 +161,34 @@ public class CardLibraryScreen implements Initializable{
          return new SimpleObjectProperty<>(button);
       });
 
-      cardTable.getColumns().addAll(frontContentColumn, backContentColumn,dueTimeColumn,  editButtonColumn);
+      cardTable.getColumns().addAll(frontContentColumn, backContentColumn, dueTimeColumn, editButtonColumn);
 
       topicTable.getColumns().clear();
 
-      TableColumn<String, String> topicColumn = new TableColumn<>("name");
+      TableColumn<StringProperty, String> topicColumn = new TableColumn<>("Topic name");
       topicColumn.setCellValueFactory(cellData -> {
-         return new SimpleStringProperty(cellData.getValue());
+         return cellData.getValue();
       });
 
-      topicColumn.setCellFactory(column -> new TableCell<String, String>() {
-         @Override
-         protected void updateItem(String name, boolean empty) {
-            super.updateItem(name, empty);
-            if (empty || name == null) {
+      topicColumn.setCellFactory(column -> {
+         TableCell<StringProperty, String> cell = new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+               super.updateItem(item, empty);
+               if (empty || item == null) {
                   setText(null);
-            } else {
-                  setText(name);
-                  setOnMouseClicked(event -> {
-                     controller.setCardsByTopic(name);
-                  });
+                  setGraphic(null);
+              } else {
+                  setText(item);  
+              }
             }
-            setAlignment(Pos.CENTER);
-         }
+         };
+         cell.setOnMouseClicked(e -> {
+            if(cell.getItem() != null){
+               cardLibraryController.setCardsByTopic(cell.getItem());
+            }
+         });
+         return cell;
       });
 
       topicTable.getColumns().add(topicColumn);
@@ -154,14 +198,14 @@ public class CardLibraryScreen implements Initializable{
       return loader.getRoot();
    }
 
-   public void disableScreen(){
+   public void disableScreen() {
       Parent root = getRoot();
       Scene scene = root.getScene();
       Stage stage = (Stage) scene.getWindow();
       stage.setOpacity(0);
    }
 
-   public void showScreen(){
+   public void showScreen() {
       Parent root = getRoot();
       Scene scene = root.getScene();
       Stage stage = (Stage) scene.getWindow();

@@ -11,14 +11,17 @@ import com.noface.flashcard.utils.ResourceLoader;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 
 public class CardLibraryController {
    private CardLibraryScreen screen;
    private CardLearningController cardLearningController;
    private Map<String, List<Card>> data;
-   private ListProperty<String> topicProperties = new SimpleListProperty<>(FXCollections.observableArrayList());
+   private ListProperty<StringProperty> topicProperties = new SimpleListProperty<>(FXCollections.observableArrayList());
    private ListProperty<Card> cardProperties = new SimpleListProperty<>(FXCollections.observableArrayList());
+   private String currentTopic;
    public CardLibraryController() throws IOException{
       cardLearningController = new CardLearningController();
       screen = new CardLibraryScreen(this, cardLearningController);
@@ -27,7 +30,7 @@ public class CardLibraryController {
    public CardLibraryScreen getScreen() {
       return screen;
    }  
-   public ListProperty<String> getTopicProperties() {
+   public ListProperty<StringProperty> getTopicProperties() {
       return topicProperties;
    }
    public ListProperty<Card> getCardProperties() {
@@ -35,20 +38,43 @@ public class CardLibraryController {
    }
    public void loadData(){
       data = ResourceLoader.getInstance().getData();
-      topicProperties.addAll(data.keySet());
-      cardProperties.addAll(data.get(topicProperties.getFirst()));
+      for(String topic : data.keySet()){
+         topicProperties.add(new SimpleStringProperty(topic));
+      }
+      currentTopic = topicProperties.getFirst().get();
+      cardProperties.addAll(data.get(currentTopic));
    }
    public void setCardsByTopic(String name) {
+      currentTopic = name;
       cardProperties.clear();
       cardProperties.addAll(data.get(name));
    }
 
-   public void refreshCard(Card card){
-      cardProperties.remove(card);
-      cardProperties.add(card);
-   }
    public void startLearn() {
       cardLearningController.startLearn(cardProperties);
    }
-   
+   public void renameCurrentTopicTo(String newValue) throws Exception{
+      for(StringProperty name : topicProperties.get()){
+         if(newValue.equals(name.get())){
+            throw new Exception("Name duplicated");
+         }
+      }
+      for(StringProperty name : topicProperties.get()){
+         if(currentTopic.equals(name.get())){
+            name.set(newValue);
+         }
+      }
+      data.put(newValue, data.get(currentTopic));
+      data.remove(currentTopic);
+   }
+
+   public void removeCurrentTopic(){
+      data.remove(currentTopic);
+      for(StringProperty topicProperty : topicProperties){
+         if(topicProperty.get().equals(currentTopic)){
+            topicProperties.remove(topicProperty);
+            break;
+         }
+      }
+   }
 }

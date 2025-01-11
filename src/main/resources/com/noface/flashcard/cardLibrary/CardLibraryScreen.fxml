@@ -17,12 +17,12 @@
                   <HBox>
                      <children>
                         <Button fx:id="learnButton" mnemonicParsing="false" text="Learn" />
-                        <Button mnemonicParsing="false" text="Rename" />
+                        <Button fx:id="renameButton" mnemonicParsing="false" text="Rename" />
                      </children>
                   </HBox>
                   <HBox>
                      <children>
-                        <Button mnemonicParsing="false" text="Delete" />
+                        <Button fx:id="deleteTopicButton" mnemonicParsing="false" text="Delete" />
                         <Button mnemonicParsing="false" text="Add" />
                      </children>
                   </HBox>
