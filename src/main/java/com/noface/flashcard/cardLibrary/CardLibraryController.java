@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.noface.flashcard.cardLearning.CardLearningController;
 import com.noface.flashcard.model.Card;
 import com.noface.flashcard.utils.ResourceLoader;
 
@@ -14,11 +15,14 @@ import javafx.collections.FXCollections;
 
 public class CardLibraryController {
    private CardLibraryScreen screen;
+   private CardLearningController cardLearningController;
    private Map<String, List<Card>> data;
    private ListProperty<String> topicProperties = new SimpleListProperty<>(FXCollections.observableArrayList());
    private ListProperty<Card> cardProperties = new SimpleListProperty<>(FXCollections.observableArrayList());
    public CardLibraryController() throws IOException{
-      screen = new CardLibraryScreen(this);
+      cardLearningController = new CardLearningController();
+      screen = new CardLibraryScreen(this, cardLearningController);
+      
    }
    public CardLibraryScreen getScreen() {
       return screen;
@@ -42,6 +46,9 @@ public class CardLibraryController {
    public void refreshCard(Card card){
       cardProperties.remove(card);
       cardProperties.add(card);
+   }
+   public void startLearn() {
+      cardLearningController.startLearn(cardProperties);
    }
    
 }

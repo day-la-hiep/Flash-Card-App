@@ -89,6 +89,7 @@ public class CardLearningScreen {
                     changeToBackCardHidedState();
                 }
             });
+            
 
             showAnswerButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
