@@ -67,9 +67,8 @@ public class CardLearningController {
         System.out.println(cardProperty.get());
     }
 
-    public void startLearn(){
+    public void startLearn(List<Card> data){
         System.out.println("Start learn");
-        List<Card> data = ResourceLoader.getInstance().getSampleCards();
         System.out.println(data.size());
         cards.addAll(data);
         for(Card c : data){

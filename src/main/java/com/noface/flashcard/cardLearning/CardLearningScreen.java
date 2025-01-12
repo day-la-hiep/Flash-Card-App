@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.noface.flashcard.cardLibrary.EditCardDialog;
 import com.noface.flashcard.model.Card;
 
 import javafx.beans.binding.Binding;
@@ -40,6 +41,8 @@ public class CardLearningScreen {
     private Button showAnswerButton;
     @FXML
     private HBox doneButtonBar;
+    private EditCardDialog editCardDialog = new EditCardDialog();
+
 
     private FXMLLoader loader;
     public <T> T getRoot(){
@@ -55,7 +58,7 @@ public class CardLearningScreen {
     public CardLearningScreen(CardLearningController controller) throws IOException {
         this.controller = controller;
         loader = new FXMLLoader(this.getClass().getResource("CardLearningScreen.fxml"));
-        loader.setController(this);
+        loader.setController(this); 
         loader.load();
         createBinding();
 
@@ -72,6 +75,10 @@ public class CardLearningScreen {
     private List<Button> selectRepetitionButtons = new ArrayList<>();
     public final String[] repetitionLabels = {"Again - 1 minutes", "Hard - 6 minutes", "Good - 10 minutes", "Easy - 3 days"};
     public void configCustomScreenComponent(){
+        cardEditButton.setOnAction(e -> {
+            editCardDialog.setCard(card.get());
+            editCardDialog.showAndWait();
+        });
         for (int i = 0; i < repetitionTimes.length; i++) {
             String label = repetitionLabels[i];
             Button selectRepetitionButton = new Button(label);
@@ -89,6 +96,7 @@ public class CardLearningScreen {
                     changeToBackCardHidedState();
                 }
             });
+            
 
             showAnswerButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override

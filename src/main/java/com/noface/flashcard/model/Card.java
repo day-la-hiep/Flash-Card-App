@@ -12,35 +12,28 @@ public class Card{
     private final StringProperty dueTime = new SimpleStringProperty();
     private final StringProperty frontContent = new SimpleStringProperty();
     private final StringProperty backContent = new SimpleStringProperty();
-    private final StringProperty topic = new SimpleStringProperty();
 
 
 
     
-    public Card(long id, String name, String frontContent, String backContent, String topic, String dueTime){
-        this(name, frontContent, backContent, topic, dueTime);
+    public Card(long id, String name, String frontContent, String backContent, String dueTime){
+        this(name, frontContent, backContent, dueTime);
         this.id.set(Long.toString(id));
     }
 
-    public Card(String name, String frontContent, String backContent, String topic, String dueTime){
+    public Card(String name, String frontContent, String backContent, String dueTime){
         this.name.set(name);
         this.frontContent.set(frontContent);
         this.backContent.set(backContent);
         this.dueTime.set(dueTime);
-        this.topic.set(topic);
     }
 
     public Card() {
+        this.backContentProperty().set("");
+        this.frontContentProperty().set("");
+        this.dueTime.set(LocalDateTime.now().toString());
     }
 
-    public void unbind(){
-        name.unbind();
-        dueTime.unbind();
-        frontContent.unbind();
-        backContent.unbind();
-        topic.unbind();
-
-    }
 
 
     @Override
@@ -51,7 +44,6 @@ public class Card{
                 ", dueTime=" + dueTime +
                 ", frontContent=" + frontContent +
                 ", backContent=" + backContent +
-                ", topic=" + topic +
                 '}';
     }
 
@@ -111,11 +103,5 @@ public class Card{
         this.dueTime.set(dueTime);
     }
 
-    public String getTopic() {
-        return topic.get();
-    }
 
-    public StringProperty topicProperty() {
-        return topic;
-    }
 }
