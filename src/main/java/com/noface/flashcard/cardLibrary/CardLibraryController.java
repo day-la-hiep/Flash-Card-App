@@ -1,6 +1,7 @@
 package com.noface.flashcard.cardLibrary;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,10 +55,9 @@ public class CardLibraryController {
       cardLearningController.startLearn(cardProperties);
    }
    public void renameCurrentTopicTo(String newValue) throws Exception{
-      for(StringProperty name : topicProperties.get()){
-         if(newValue.equals(name.get())){
-            throw new Exception("Name duplicated");
-         }
+      if(isInvalidTopicName(newValue) == false){
+         throw new Exception("Name duplicated");
+
       }
       for(StringProperty name : topicProperties.get()){
          if(currentTopic.equals(name.get())){
@@ -67,6 +67,22 @@ public class CardLibraryController {
       data.put(newValue, data.get(currentTopic));
       data.remove(currentTopic);
    }
+   public void addNewTopic(String newValue) throws Exception{
+      if(isInvalidTopicName(newValue) == false){
+         throw new Exception("Name duplicated");
+      }
+      data.put(newValue, new ArrayList<>());
+      topicProperties.add(new SimpleStringProperty(newValue));
+   }
+
+   public boolean isInvalidTopicName(String newName){
+      for(StringProperty name : topicProperties.get()){
+         if(name.get().equals(newName)){
+            return false;
+         }
+      }
+      return true;
+   }
 
    public void removeCurrentTopic(){
       data.remove(currentTopic);
@@ -75,6 +91,12 @@ public class CardLibraryController {
             topicProperties.remove(topicProperty);
             break;
          }
+      }
+   }
+   public void addCardToCurrentTopic(Card card) {
+      if(currentTopic != null){
+         data.get(currentTopic).add(card);
+         cardProperties.add(card);
       }
    }
 }

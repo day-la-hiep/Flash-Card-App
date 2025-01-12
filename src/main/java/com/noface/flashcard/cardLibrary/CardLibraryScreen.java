@@ -17,7 +17,6 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -43,6 +42,9 @@ public class CardLibraryScreen implements Initializable {
    private Button renameButton;
    @FXML
    private Button deleteTopicButton;
+   @FXML
+   private Button addTopicButton;
+   private Button addCardButton;
 
    private EditCardDialog editCardDialog = new EditCardDialog();
 
@@ -57,9 +59,52 @@ public class CardLibraryScreen implements Initializable {
 
    @Override
    public void initialize(URL location, ResourceBundle resources) {
-
       bindingTableToController(cardLibraryController);
+      configureLearnButton();
+      configureRenameTopicButton();
+      configureAddTopicButton();
+      configureDeleteTopicButton();
+   }
+   private void configureAddTopicButton(){
+      
+      addTopicButton.setOnAction(e-> {
+         TextInputDialog dialog = showEnterNameDialog("");
+         Optional<String> result = dialog.showAndWait();
+         result.ifPresent(name -> {
+            try {
+               cardLibraryController.addNewTopic(name);
+            } catch (Exception e1) {
+               // TODO Auto-generated catch block
+               e1.printStackTrace();
+            }
+         });
+      });
+   }
+   private void configureDeleteTopicButton(){
+      deleteTopicButton.setOnAction(e -> {
+         cardLibraryController.removeCurrentTopic();
+         cardLibraryController.setCardsByTopic(topicTable.getSelectionModel().getSelectedItem().get());
+      });
+   }
+   private void configureRenameTopicButton(){
+      renameButton.setOnAction(e -> {
+         StringProperty topicProperty = topicTable.getSelectionModel().getSelectedItem();
+         if (topicProperty != null) {
+            TextInputDialog dialog = showEnterNameDialog(topicProperty.get());
+            Optional<String> result = dialog.showAndWait();
 
+            result.ifPresent(name -> {
+               try {
+                  cardLibraryController.renameCurrentTopicTo(name);
+                  topicProperty.set(name);
+               } catch (Exception e2) {
+
+               }
+            });
+         }
+      });
+   }
+   private void configureLearnButton(){
       learnButton.setOnAction(e -> {
          cardLibraryController.startLearn();
          Parent root = cardLearningController.getScreen().getRoot();
@@ -74,39 +119,6 @@ public class CardLibraryScreen implements Initializable {
          stage.showAndWait();
          showScreen();
       });
-
-      renameButton.setOnAction(e -> {
-         StringProperty topicProperty = topicTable.getSelectionModel().getSelectedItem();
-         if (topicProperty != null) {
-            try {
-               TextInputDialog dialog = new TextInputDialog();
-               dialog.setTitle("New topic name");
-               dialog.setHeaderText("Enter your new topic name");
-               dialog.setContentText("Name: ");
-               dialog.getEditor().setText(topicProperty.get());
-               Optional<String> result = dialog.showAndWait();
-
-               result.ifPresent(name -> {
-                  try {
-                     cardLibraryController.renameCurrentTopicTo(name);
-                     topicProperty.set(name);
-                  } catch (Exception e2) {
-
-                  }
-               });
-            } catch (Exception e1) {
-
-            }
-         }
-
-      });
-
-      deleteTopicButton.setOnAction(e -> {
-         int topicIndex = topicTable.getSelectionModel().getFocusedIndex();
-         cardLibraryController.removeCurrentTopic();
-         cardLibraryController.setCardsByTopic(topicTable.getSelectionModel().getSelectedItem().get());
-      });
-
    }
 
    public void bindingTableToController(CardLibraryController controller) {
@@ -140,7 +152,16 @@ public class CardLibraryScreen implements Initializable {
          return binding;
       });
 
-      TableColumn<Card, Button> editButtonColumn = new TableColumn<>("");
+      TableColumn<Card, Button> editButtonColumn = new TableColumn<>();
+      addCardButton = new Button("Add card");
+      addCardButton.setOnAction(e -> {
+         Card card = new Card();
+         editCardDialog.setCard(card);
+         editCardDialog.showAndWait();
+         controller.addCardToCurrentTopic(card);
+      });
+      editButtonColumn.setGraphic(addCardButton);
+      
       editButtonColumn.setPrefWidth(50);
       editButtonColumn.setResizable(false);
       editButtonColumn.setCellValueFactory(cellData -> {
@@ -149,14 +170,7 @@ public class CardLibraryScreen implements Initializable {
          button.setMaxHeight(Double.MAX_VALUE);
          button.setOnAction(e -> {
             editCardDialog.setCard(cellData.getValue());
-            Parent root = editCardDialog.getRoot();
-            if (root.getScene() == null) {
-               Scene scene = new Scene(root);
-            }
-            Stage stage = new Stage();
-            stage.setScene(root.getScene());
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
+            editCardDialog.showAndWait();
          });
          return new SimpleObjectProperty<>(button);
       });
@@ -210,5 +224,13 @@ public class CardLibraryScreen implements Initializable {
       Scene scene = root.getScene();
       Stage stage = (Stage) scene.getWindow();
       stage.setOpacity(1);
+   }
+   private TextInputDialog showEnterNameDialog(String preText){
+      TextInputDialog dialog = new TextInputDialog();
+      dialog.setTitle("New topic name");
+      dialog.setHeaderText("Enter your topic name");
+      dialog.setContentText("Name: ");
+      dialog.getEditor().setText(preText);
+      return dialog;
    }
 }

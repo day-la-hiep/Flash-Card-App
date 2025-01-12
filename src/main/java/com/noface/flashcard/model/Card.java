@@ -29,6 +29,9 @@ public class Card{
     }
 
     public Card() {
+        this.backContentProperty().set("");
+        this.frontContentProperty().set("");
+        this.dueTime.set(LocalDateTime.now().toString());
     }
 
 

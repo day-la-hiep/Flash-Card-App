@@ -23,7 +23,7 @@
                   <HBox>
                      <children>
                         <Button fx:id="deleteTopicButton" mnemonicParsing="false" text="Delete" />
-                        <Button mnemonicParsing="false" text="Add" />
+                        <Button fx:id="addTopicButton" mnemonicParsing="false" text="Add" />
                      </children>
                   </HBox>
                   <TableView fx:id="topicTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
