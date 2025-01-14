@@ -2,17 +2,19 @@ package com.noface.flashcard.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class User implements Serializable {
     private String username;
     private String password;
-    private List<Card> cards;
+    private Map<String, List<Card>> cards;
 
-    public User(String password, String username) {
+    public User(String username, String password) {
         this.password = password;
         this.username = username;
-        cards = new ArrayList<>();
+        cards = new HashMap<>();
     }
 
     public String getUsername() {
@@ -31,11 +33,24 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public List<Card> getCards() {
+    public Map<String, List<Card>> getCards() {
         return cards;
     }
 
-    public void setCards(List<Card> cards) {
+    public void setCards(Map<String, List<Card>> cards) {
         this.cards = cards;
     }
+    public String toString(){
+        String res = "";
+        res = "User " + username + " " + password;
+        res += "\n";
+        for(String topic : cards.keySet()){
+            res += ("Topic: " + topic + "\n");
+            for(Card card : cards.get(topic)){
+                res += card.toString() + "\n";
+            }
+        }
+        return res;
+    }
+
 }
