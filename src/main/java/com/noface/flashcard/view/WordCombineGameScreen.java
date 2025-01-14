@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.noface.flashcard.controller.WordCombineGameController;
+import com.noface.flashcard.model.Card2;
 import com.noface.flashcard.view.component.LetterPane;
 
 import javafx.beans.property.ListProperty;
@@ -74,48 +75,45 @@ public class WordCombineGameScreen {
         loader.load();
 
     }
+
     public void showCurrentWordInfo() throws Exception {
-        String prompt = shuffledWordList.get(currentWordIndex).getKey();
+        String detail = shuffledWordList.get(currentWordIndex).getBack();
 
-
-
-        String translatePath = "english_to_vietnamese";
-        inforOutput.getEngine().loadContent("<p>Translating...</p>");
-        String finalTranslatePath = translatePath;
-        executorService.submit(() -> {
-            String result;
-            try {
-                result = controller.sendApiRequestToDICT_HHDB(prompt, finalTranslatePath);
-                if (result.isEmpty()) {
-                    result = "<p>No result returned from API.</p>";
-                }
-            } catch (Exception e) {
-                result = "<p>Error: Unable to connect to the API.</p>";
-                e.printStackTrace();
-            }
-
-            String finalResult = result.replaceAll("\\/\\/", "");
-            javafx.application.Platform.runLater(() -> {
-                inforOutput.getEngine().loadContent(finalResult);
-            });
-        });
+        inforOutput.getEngine().loadContent(String.format("<p>%s</p>", detail));
+//        String translatePath = "english_to_vietnamese";
+//        inforOutput.getEngine().loadContent("<p>Translating...</p>");
+//        String finalTranslatePath = translatePath;
+//        executorService.submit(() -> {
+//            String result;
+//            try {
+//                result = controller.sendApiRequestToDICT_HHDB(prompt, finalTranslatePath);
+//                if (result.isEmpty()) {
+//                    result = "<p>No result returned from API.</p>";
+//                }
+//            } catch (Exception e) {
+//                result = "<p>Error: Unable to connect to the API.</p>";
+//                e.printStackTrace();
+//            }
+//
+//            String finalResult = result.replaceAll("\\/\\/", "");
+//            javafx.application.Platform.runLater(() -> {
+//                inforOutput.getEngine().loadContent(finalResult);
+//            });
+//        });
     }
 
     public <T> T getRoot() {
         return loader.getRoot();
     }
 
-    private ListProperty<Pair<String, String>> words = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private ListProperty<Card2> words = new SimpleListProperty<>(FXCollections.observableArrayList());
     private int currentWordIndex = 0;
     private Map<Integer, StackPane> letterPanes = new HashMap<>();
     private List<StackPane> emptyPanes = new ArrayList<>();
-    private List<Pair<String, String>> shuffledWordList = new ArrayList<>();
+    private List<Card2> shuffledWordList = new ArrayList<>();
 
     public void initialize() {
-
-        for(Pair<String, String> word : words){
-            shuffledWordList.add(new Pair<>(word.getKey(), word.getValue()));
-        }
+        shuffledWordList.addAll(words);
         Collections.shuffle(shuffledWordList);
 
         nextButton.setOnAction(e -> {
@@ -138,6 +136,7 @@ public class WordCombineGameScreen {
                 e.acceptTransferModes(TransferMode.COPY);
             }
         });
+
         root.setOnDragDropped(e -> {
             Dragboard db = e.getDragboard();
             System.out.println("root drag dropped");
@@ -172,8 +171,8 @@ public class WordCombineGameScreen {
             lettersBox.getChildren().clear();
             emptySlotsBox.getChildren().clear();
 
-            String currentWord = shuffledWordList.get(currentWordIndex).getKey();
-            topicHintLabel.setText(shuffledWordList.get(currentWordIndex).getValue());
+            String currentWord = shuffledWordList.get(currentWordIndex).getFront();
+            topicHintLabel.setText(shuffledWordList.get(currentWordIndex).getTopic());
             promptText.setText("Rearrange the word");
 
             List<String> letters = new ArrayList<>();
@@ -294,7 +293,7 @@ public class WordCombineGameScreen {
 
             userInput.append(letterPane.getLetter());
         }
-        String correctWord = shuffledWordList.get(currentWordIndex).getKey();
+        String correctWord = shuffledWordList.get(currentWordIndex).getFront();
         System.out.println(userInput + " " + correctWord);
         if (userInput.toString().equals(correctWord)) {
             makeDisappear(resultText, false);

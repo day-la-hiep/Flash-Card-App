@@ -12,6 +12,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.noface.flashcard.model.Card2;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -26,17 +30,19 @@ import javafx.util.Pair;
 
 public class WordCombineGameController {
     private WordCombineGameScreen screen;
-    private ListProperty<Pair<String, String>> words = new SimpleListProperty(FXCollections.observableArrayList());
+    private ListProperty<Card2> words = new SimpleListProperty(FXCollections.observableArrayList());
+
     public WordCombineGameController() throws IOException {
 
         try {
             words.get().clear();
-            words.get().addAll(getWordsData());
+            getWordsData();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
         screen = new WordCombineGameScreen(this);
     }
+
     public List<String> extractWordFromJson(String jsonResponse) {
         JSONArray jsonArray = new JSONArray(jsonResponse);
         List<String> words = new ArrayList<String>();
@@ -95,46 +101,27 @@ public class WordCombineGameController {
     }
 
 
-    public List<Pair<String, String>> getWordsData() throws URISyntaxException {
-
-        URL resourceUrl = FXMain.class.getResource("topic");
-        List<Pair<String, String>> words = new ArrayList<>();
-        File folder = null;
-        try {
-            folder = new File(resourceUrl.toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+    public void getWordsData() throws URISyntaxException {
+        URL resourceUrl = FXMain.class.getResource("card.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        List<Card2> card2List = new ArrayList<>();
+        try{
+            jsonNode = objectMapper.readTree(new File(resourceUrl.toURI()));
+            TypeReference<List<Card2>> card2TypeReference = new TypeReference<List<Card2>>() {};
+            card2List = objectMapper.readValue(resourceUrl, card2TypeReference);
+        } catch (Exception e) {
+            System.out.println("Card file not found!!!");
         }
-        File[] files = folder.listFiles((dir, name) -> name.endsWith(".txt"));
-        List<String> topics = new ArrayList<>();
-        for (File file : files) {
-            String topic = file.getName().replace(".txt", "");
 
-            URL topicUrl = FXMain.class.getResource("topic/" + topic + ".txt");
-            if (topicUrl == null) {
-                throw new RuntimeException("Resource not found: " + topic);
-            }
-            File topicFile = new File(topicUrl.toURI());
-
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(topicFile), StandardCharsets.UTF_8))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] parts = line.split(";", 3);
-                    if (parts.length == 3) {
-                        words.add(new Pair<>(parts[0].trim(), topic));
-                    }
-                }
-            } catch (Exception ignored) {
-            }
-        }
-        return words;
+        words.addAll(card2List);
     }
 
-    public ObservableList<Pair<String, String>> getWords() {
+    public ObservableList<Card2> getWords() {
         return words.get();
     }
 
-    public ListProperty<Pair<String, String>> wordsProperty() {
+    public ListProperty<Card2> wordsProperty() {
         return words;
     }
 

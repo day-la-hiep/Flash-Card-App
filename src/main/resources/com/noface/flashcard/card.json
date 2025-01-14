@@ -1,0 +1,52 @@
+[
+  {
+    "front": "accomplice",
+    "back": "đồng loã, tòng phạm",
+    "topic": "Con người"
+  },
+  {
+    "front": "format",
+    "back": "định dạng",
+    "topic": "Động vật"
+  },
+  {
+    "front": "dog",
+    "back": "con chó",
+    "topic": "Động vật"
+  },
+  {
+    "front": "cat",
+    "back": "con mèo",
+    "topic": "Động vật"
+  },
+  {
+    "front": "owl",
+    "back": "con cú",
+    "topic": "Động vật"
+  },
+  {
+    "front": "puppy",
+    "back": "chó con",
+    "topic": "Động vật"
+  },
+  {
+    "front": "kitten",
+    "back": "mèo con",
+    "topic": "Động vật"
+  },
+  {
+    "front": "library",
+    "back": "thư viện",
+    "topic": "Trường học"
+  },
+  {
+    "front": "school",
+    "back": "trường học",
+    "topic": "Trường học"
+  },
+  {
+    "front": "project",
+    "back": "dự án",
+    "topic": "Công việc"
+  }
+]

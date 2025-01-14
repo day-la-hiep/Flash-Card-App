@@ -15,7 +15,6 @@ public class Card{
     private final StringProperty topic = new SimpleStringProperty();
 
 
-
     
     public Card(long id, String name, String frontContent, String backContent, String topic, String dueTime){
         this(name, frontContent, backContent, topic, dueTime);
