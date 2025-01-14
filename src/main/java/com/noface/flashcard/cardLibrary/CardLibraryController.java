@@ -42,7 +42,7 @@ public class CardLibraryController {
       for(String topic : data.keySet()){
          topicProperties.add(new SimpleStringProperty(topic));
       }
-      currentTopic = topicProperties.getFirst().get();
+      currentTopic = topicProperties.get().get(0).get();
       cardProperties.addAll(data.get(currentTopic));
    }
    public void setCardsByTopic(String name) {
