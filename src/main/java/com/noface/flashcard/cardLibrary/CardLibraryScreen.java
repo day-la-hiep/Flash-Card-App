@@ -74,7 +74,6 @@ public class CardLibraryScreen implements Initializable {
             try {
                cardLibraryController.addNewTopic(name);
             } catch (Exception e1) {
-               // TODO Auto-generated catch block
                e1.printStackTrace();
             }
          });

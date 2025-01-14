@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.noface.flashcard.cardLearning.CardLearningController;
 import com.noface.flashcard.model.Card;
+import com.noface.flashcard.model.User;
+import com.noface.flashcard.utils.FileLoader;
 import com.noface.flashcard.utils.ResourceLoader;
 
 import javafx.beans.property.ListProperty;
@@ -37,8 +39,9 @@ public class CardLibraryController {
    public ListProperty<Card> getCardProperties() {
       return cardProperties;
    }
-   public void loadData(){
-      data = ResourceLoader.getInstance().getData();
+   public void loadData(String username){
+      User user = ResourceLoader.getInstance().getUserData(username);
+      data = user.getCards();
       for(String topic : data.keySet()){
          topicProperties.add(new SimpleStringProperty(topic));
       }
@@ -98,5 +101,8 @@ public class CardLibraryController {
          data.get(currentTopic).add(card);
          cardProperties.add(card);
       }
+   }
+   public void saveData(){
+
    }
 }
