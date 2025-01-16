@@ -1,46 +1,50 @@
 package com.noface.flashcard.userUtilities;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.noface.flashcard.model.User;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class RegisterScreen {
 
     @FXML
-    TextField name;
+    private ChoiceBox<String> genderTF;
     @FXML
-    TextField username;
+    private TextField nameTF;
     @FXML
-    TextField password;
+    private TextField emailTF;
     @FXML
-    TextField confirmPassword;
+    private TextField phone;
     @FXML
-    TextField day;
+    private Button registerButton;
     @FXML
-    TextField month;
+    private TextField phoneNumberTF;
     @FXML
-    TextField year;
+    private TextField usernameTF;
     @FXML
-    ChoiceBox<String> gender = new ChoiceBox<>();
+    private DatePicker dobTF;
     @FXML
-    Button registerButton;
+    private PasswordField passwordTF;
     @FXML
-    TextField email;
-    @FXML
-    TextField phone;
-
+    private PasswordField confirmPasswordTF;
     private FXMLLoader loader;
     private UserUtilitiesController controller;
+
     public RegisterScreen(UserUtilitiesController loginRegisterController) throws IOException {
         loader = new FXMLLoader(this.getClass().getResource("RegisterScreen.fxml"));
         loader.setController(this);
@@ -48,24 +52,44 @@ public class RegisterScreen {
         controller = loginRegisterController;
     }
 
-    public <T> T getRoot(){
+    public <T> T getRoot() {
         return loader.getRoot();
     }
 
     @FXML
-    public void initialize(){
+    public void initialize() {
+        genderTF.setItems(FXCollections.observableArrayList());
+        genderTF.getItems().addAll("Male", "Female", "Other");
         registerButton.setOnAction(e -> {
-            User user = null;
-            try {
-                user = controller.createUser(username.getText(), password.getText());
-            } catch (IOException e1) {
-                e1.printStackTrace();
+            String name = nameTF.getText();
+            String username = usernameTF.getText();
+            String phoneNumber = phoneNumberTF.getText();
+            LocalDate dob = dobTF.getValue();
+            String password = passwordTF.getText();
+            String confirmPassword = confirmPasswordTF.getText();
+            String gender = genderTF.selectionModelProperty().get().getSelectedItem();
+            String email = emailTF.getText();
+            if (username.equals("") || name.equals("") || password.equals("") || email.equals("")) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setContentText("Invalid information");
+                alert.show();
             }
-            if(user == null){
+            if (password.equals(confirmPassword) == false) {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setContentText("Password not match, please try again");
+                alert.show();
+            }
+            User user = new User(name, username, confirmPassword, dob, password, gender, phoneNumber, new HashMap<>());
+            try {
+                user = controller.createUser(user);
+            } catch (IOException e1) {
+                user = null;
+            }
+            if (user == null) {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setContentText("Invalid information for account");
                 alert.show();
-            }else{
+            } else {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setContentText("Create user successfully");
                 alert.show();
@@ -73,8 +97,7 @@ public class RegisterScreen {
                 Stage stage = (Stage) scene.getWindow();
                 stage.close();
             }
-        });    
+        });
     }
 
-    
 }

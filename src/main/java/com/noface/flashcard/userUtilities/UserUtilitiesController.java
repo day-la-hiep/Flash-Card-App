@@ -1,6 +1,7 @@
 package com.noface.flashcard.userUtilities;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import com.noface.flashcard.model.User;
 import com.noface.flashcard.screenNavigation.MainController;
@@ -35,16 +36,20 @@ public class UserUtilitiesController {
       return loginScreen;
    }
 
-   public User createUser(String username, String password) throws IOException {
-      if(ResourceLoader.getInstance().isValidUsername(username)){
-         User user = new User(username, password);
-         ResourceLoader.getInstance().createNewAccountData(username, password);
-         return user;
-      }
-      return null;
+   public User createUser(User user) throws IOException {
+      ResourceLoader.getInstance().createNewAccountData(user);
+      return user;
    }
    public void saveUser() throws IOException{
-      ResourceLoader.getInstance().updateUser();
+      ResourceLoader.getInstance().updateCurrentUser();
+   }
+
+   public void updateUserInfo(String name, LocalDate dob, String email, String gender, String phoneNumber){
+      userProperty.get().setDob(dob);
+      userProperty.get().setEmail(email);
+      userProperty.get().setPhoneNumber(phoneNumber);
+      userProperty.get().setGender(gender);
+      userProperty.get().setName(name);
    }
 
    public void startSession(String username) {
@@ -52,5 +57,12 @@ public class UserUtilitiesController {
    }
    public ProfileScreen getProfileScreen(){
       return profileScreen;
+   }
+
+   public ObjectProperty<User> getUserProperty() {
+      return userProperty;
+   }
+   public void updateUserPassword(String newPassword){
+      userProperty.get().setPassword(newPassword);
    }
 }

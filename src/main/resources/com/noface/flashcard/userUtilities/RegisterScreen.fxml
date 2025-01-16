@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -45,22 +45,22 @@
             <VBox prefHeight="618.0" prefWidth="584.0" styleClass="right-pane" HBox.hgrow="ALWAYS">
                <children>
                   <Label styleClass="title" text="Create account" />
-                  <TextField id="input_text" fx:id="name" prefHeight="35.0" prefWidth="218.0" promptText="Name">
+                  <TextField id="input_text" fx:id="nameTF" prefHeight="35.0" prefWidth="218.0" promptText="Name">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </TextField>
-                  <TextField id="input_text" fx:id="username" prefHeight="35.0" prefWidth="218.0" promptText="Username" stylesheets="@MainScreenStyle.css">
+                  <TextField id="input_text" fx:id="usernameTF" layoutX="160.0" layoutY="170.0" prefHeight="35.0" prefWidth="218.0" promptText="Username">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </TextField>
-                  <PasswordField id="input_text" fx:id="password" prefHeight="35.0" prefWidth="218.0" promptText="Password" styleClass="text_input">
+                  <PasswordField id="input_text" fx:id="passwordTF" prefHeight="35.0" prefWidth="218.0" promptText="Password" styleClass="text_input">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </PasswordField>
-                  <PasswordField id="input_text" fx:id="confirmPassword" prefHeight="35.0" prefWidth="218.0" promptText="Confirm password">
+                  <PasswordField id="input_text" fx:id="confirmPasswordTF" prefHeight="35.0" prefWidth="218.0" promptText="Confirm password">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
@@ -70,18 +70,12 @@
                         <HBox prefHeight="35.0" prefWidth="218.0" spacing="5.0" styleClass="gender-hbox">
                            <children>
                               <Label prefHeight="21.0" prefWidth="106.0" text="Dob:" textFill="#878787" />
-                              <TextField id="input_text" fx:id="day" promptText="Day" styleClass="text_input">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </TextField>
-                              <TextField id="input_text" fx:id="month" promptText="Month" styleClass="text_input" />
-                              <TextField id="input_text" fx:id="year" promptText="Year" styleClass="text_input" />
+                              <DatePicker fx:id="dobTF" prefHeight="32.0" prefWidth="311.0" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
-                  <TextField id="input_text" fx:id="email" prefHeight="35.0" prefWidth="218.0" promptText="Email">
+                  <TextField id="input_text" fx:id="emailTF" prefHeight="35.0" prefWidth="218.0" promptText="Email">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
@@ -89,10 +83,10 @@
                   <HBox prefHeight="27.0" prefWidth="218.0" spacing="5.0" styleClass="gender-hbox">
                      <children>
                         <Label prefHeight="27.0" prefWidth="66.0" text="Gender:" />
-                        <ChoiceBox fx:id="gender" prefHeight="1.0" prefWidth="222.0" styleClass="combo-box" HBox.hgrow="ALWAYS" />
+                        <ChoiceBox fx:id="genderTF" prefHeight="1.0" prefWidth="222.0" styleClass="combo-box" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
-                  <TextField id="input_text" fx:id="phone" prefHeight="35.0" prefWidth="218.0" promptText="Phone number">
+                  <TextField id="input_text" fx:id="phoneNumberTF" prefHeight="35.0" prefWidth="218.0" promptText="Phone number">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>

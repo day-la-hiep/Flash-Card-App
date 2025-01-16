@@ -1,7 +1,6 @@
 package com.noface.flashcard.cardLibrary;
 
 import java.io.IOException;
-import java.security.Key;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -12,11 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -44,7 +42,6 @@ public class EditCardDialog {
       
       saveButton.setOnAction(e -> {
          LocalDateTime newDueTime = dueDatePicker.getValue().atStartOfDay();
-
          card.dueTimeProperty().set(newDueTime.toString().trim());;
          card.frontContentProperty().set(frontContent.getText().trim());
          card.backContentProperty().set(backContent.getText().trim());

@@ -105,6 +105,7 @@ public class MainScreen {
     public void changeToProfileScreen(){
         rightPane.getChildren().clear();
         rightPane.getChildren().add((Node) profileScreen.getRoot());
+        profileScreen.changeToDefaultStatus();
     }
 
     private Stage mainStage;

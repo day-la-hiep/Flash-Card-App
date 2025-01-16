@@ -55,6 +55,8 @@ public class LoginScreen {
                 }
                 mainScreen.changeToLibraryScreen();
                 stage.setScene(mainScreenRoot.getScene());
+                usernameField.setText("");
+                passwordField.setText("");
               }
             });
     

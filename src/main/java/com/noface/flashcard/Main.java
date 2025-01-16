@@ -18,11 +18,6 @@ public class Main extends Application {
 
    @Override
    public void start(Stage primaryStage) throws Exception {
-      // LoginScreenController controller = new LoginScreenController();
-      // Parent root = controller.getScreen().getRoot();
-      // Scene scene = new Scene(root);
-      // primaryStage.setScene(scene);
-      // primaryStage.show();
       ResourceLoader.getInstance();
 
       UserUtilitiesController userUtilitiesController = new UserUtilitiesController();

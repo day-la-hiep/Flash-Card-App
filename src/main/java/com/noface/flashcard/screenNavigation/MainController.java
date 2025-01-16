@@ -3,12 +3,9 @@ package com.noface.flashcard.screenNavigation;
 import java.io.IOException;
 
 import com.noface.flashcard.cardLibrary.CardLibraryController;
-import com.noface.flashcard.model.User;
 import com.noface.flashcard.userUtilities.UserUtilitiesController;
 import com.noface.flashcard.utils.ResourceLoader;
 
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MainController {
@@ -43,6 +40,11 @@ public class MainController {
         
     }
     public void endSession() {
+        try {
+            ResourceLoader.getInstance().updateCurrentUser();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ResourceLoader.getInstance().setCurrentUser(null);
     }
 
