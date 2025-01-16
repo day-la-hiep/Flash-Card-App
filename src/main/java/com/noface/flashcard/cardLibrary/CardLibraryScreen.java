@@ -19,11 +19,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -120,7 +124,7 @@ public class CardLibraryScreen implements Initializable {
       });
    }
 
-   public void bindingTableToController(CardLibraryController controller) {
+   private void bindingTableToController(CardLibraryController controller) {
       topicTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
       cardTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -151,7 +155,7 @@ public class CardLibraryScreen implements Initializable {
          return binding;
       });
 
-      TableColumn<Card, Button> editButtonColumn = new TableColumn<>();
+      TableColumn<Card, HBox> editButtonColumn = new TableColumn<>();
       addCardButton = new Button("Add card");
       addCardButton.setOnAction(e -> {
          Card card = new Card();
@@ -164,14 +168,21 @@ public class CardLibraryScreen implements Initializable {
       editButtonColumn.setPrefWidth(50);
       editButtonColumn.setResizable(false);
       editButtonColumn.setCellValueFactory(cellData -> {
-         Button button = new Button("Edit");
-         button.setMaxWidth(Double.MAX_VALUE);
-         button.setMaxHeight(Double.MAX_VALUE);
-         button.setOnAction(e -> {
+         Button editButton = new Button("Edit");
+         editButton.setMaxWidth(Double.MAX_VALUE);
+         editButton.setMaxHeight(Double.MAX_VALUE);
+         editButton.setOnAction(e -> {
             editCardDialog.setCard(cellData.getValue());
             editCardDialog.showAndWait();
          });
-         return new SimpleObjectProperty<>(button);
+
+         Button deleteButton = new Button("Delete");
+         deleteButton.setOnAction(e -> {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            controller.removeCard(cellData.getValue());
+         });
+         HBox bar = new HBox(editButton, deleteButton);
+         return new SimpleObjectProperty<>(bar);
       });
 
       cardTable.getColumns().addAll(frontContentColumn, backContentColumn, dueTimeColumn, editButtonColumn);
@@ -211,14 +222,14 @@ public class CardLibraryScreen implements Initializable {
       return loader.getRoot();
    }
 
-   public void disableScreen() {
+   private void disableScreen() {
       Parent root = getRoot();
       Scene scene = root.getScene();
       Stage stage = (Stage) scene.getWindow();
       stage.setOpacity(0);
    }
 
-   public void showScreen() {
+   private void showScreen() {
       Parent root = getRoot();
       Scene scene = root.getScene();
       Stage stage = (Stage) scene.getWindow();
