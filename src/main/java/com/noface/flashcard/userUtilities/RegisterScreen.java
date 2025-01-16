@@ -55,7 +55,12 @@ public class RegisterScreen {
     @FXML
     public void initialize(){
         registerButton.setOnAction(e -> {
-            User user = controller.createUser(username.getText(), password.getText());
+            User user = null;
+            try {
+                user = controller.createUser(username.getText(), password.getText());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             if(user == null){
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setContentText("Invalid information for account");
@@ -64,7 +69,7 @@ public class RegisterScreen {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setContentText("Create user successfully");
                 alert.show();
-                Scene scene = loader.getRoot();
+                Scene scene = registerButton.getScene();
                 Stage stage = (Stage) scene.getWindow();
                 stage.close();
             }

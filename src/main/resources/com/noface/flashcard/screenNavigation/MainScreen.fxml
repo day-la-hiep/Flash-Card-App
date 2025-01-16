@@ -43,7 +43,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button id="button_home" fx:id="topicButton" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="7.0" prefWidth="141.0" text="  Topic" textFill="WHITE">
+                        <Button id="button_home" fx:id="libraryButton" alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="7.0" prefWidth="141.0" text="  Topic" textFill="WHITE">
                            <font>
                               <Font name="Century Gothic Bold" size="14.0" />
                            </font>
@@ -54,36 +54,6 @@
                               <ImageView fitHeight="33.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@login_image/to-do-list.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button id="button_home" fx:id="translateButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="0.0" prefWidth="141.0" text="  Translate" textFill="WHITE">
-                           <font>
-                              <Font name="Century Gothic Bold" size="14.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <graphic>
-                              <ImageView fitHeight="33.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@login_image/grammar.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button id="button_home" fx:id="dictionaryButton" alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="0.0" prefWidth="141.0" text="  Dictionary" textFill="WHITE">
-                           <font>
-                              <Font name="Century Gothic Bold" size="14.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <graphic>
-                              <ImageView fitHeight="33.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@login_image/magnifying-glass.png" />
                                  </image>
                               </ImageView>
                            </graphic>

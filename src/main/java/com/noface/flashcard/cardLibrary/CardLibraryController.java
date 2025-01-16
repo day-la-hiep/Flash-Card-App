@@ -42,6 +42,8 @@ public class CardLibraryController {
    }
 
    public void loadData(User user) {
+      topicProperties.clear();
+      cardProperties.clear();
       data = user.getCards();
       System.out.println(user);
       for (String topic : data.keySet()) {

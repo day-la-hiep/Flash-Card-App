@@ -16,7 +16,7 @@ public class MainController {
     private CardLibraryController cardLibraryController;
     private LoginRegisterController loginRegisterController;
     private Stage mainStage;
-
+    private User currentUser;
     public CardLibraryController getCardLibraryController() {
         return cardLibraryController;
     }
@@ -25,6 +25,7 @@ public class MainController {
     }
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;
+        mainScreen.setMainStage(mainStage);
     }
     public MainScreen getMainScreen() {
         return mainScreen;
@@ -35,16 +36,15 @@ public class MainController {
         this.loginRegisterController = loginRegisterController;
         mainScreen.setLibraryScreen(cardLibraryController.getScreen());
         mainScreen.setLoginScreen(loginRegisterController.getLoginScreen());
+        loginRegisterController.getLoginScreen().setMainScreen(mainScreen);
     }
     public void startSession(String username){
         User user = ResourceLoader.getInstance().getUserData(username);
+        currentUser = user;
         cardLibraryController.loadData(user);
-        Parent root = mainScreen.getRoot();
-        if(root.getScene() == null){
-            Scene scene =  new Scene(root);
-        }
-        mainStage.setScene(root.getScene());
-        mainScreen.changeToLibraryScreen();
+    }
+    public void endSession() {
+        ResourceLoader.getInstance().saveUserData(currentUser);
     }
 
 }

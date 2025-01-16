@@ -32,9 +32,10 @@ public class LoginRegisterController {
       return loginScreen;
    }
 
-   public User createUser(String username, String password) {
-      if(ResourceLoader.getInstance().getAllUsername().contains(username)){
+   public User createUser(String username, String password) throws IOException {
+      if(ResourceLoader.getInstance().getAllUsername().contains(username) == false){
          User user = new User(username, password);
+         ResourceLoader.getInstance().createNewAccountData(username, password);
          return user;
       }
       return null;

@@ -39,6 +39,7 @@ public class ResourceLoader {
     private void readUserLoginInfo() throws FileNotFoundException, IOException, ClassNotFoundException{
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(userLoginInfoPath));
         userPasswords = (Map<String, String>) ois.readObject();
+        ois.close();
     }
     public void saveUserData(User user){
         fileLoader.writeFile(user, userDataDir + user.getUsername());
@@ -59,15 +60,16 @@ public class ResourceLoader {
        return userPasswords.get(username);
     }
 
-    public void createNewAccountData(String username, String password){
+    public void createNewAccountData(String username, String password) throws IOException{
         userPasswords.put(username, password);
         User user = new User(username, password);
         saveUserData(user);
-        
+        updateUserPasswordToFile();
     }
-    public void writeLoginInfo() throws IOException{
+    public void updateUserPasswordToFile() throws IOException{
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(userLoginInfoPath));
         oos.writeObject(userPasswords);
+        oos.close();
     }
 
     public Set<String> getAllUsername(){
