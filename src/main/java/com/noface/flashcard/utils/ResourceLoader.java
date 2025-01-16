@@ -1,53 +1,79 @@
 package com.noface.flashcard.utils;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import com.noface.flashcard.model.Card;
 import com.noface.flashcard.model.User;
 
 public class ResourceLoader {
-    private User user;
+    private final String userLoginInfoPath = "account-data/login-info.dat";
+    private final String userDataDir = "data/";
+    private Map<String, String> userPasswords = new HashMap<>();
     private static ResourceLoader resourceLoader;
     FileLoader fileLoader = new FileLoader();
 
     public static ResourceLoader getInstance() {
         if(resourceLoader == null){
             resourceLoader = new ResourceLoader();
+            try {
+                resourceLoader.readUserLoginInfo();
+                System.out.println("So luong user: " + resourceLoader.userPasswords.size());
+            } catch (ClassNotFoundException | IOException e) {
+                e.printStackTrace();
+            }
         }
         return resourceLoader;
     }
+    public void saveAllData(){
+        
+    }
 
-
-
+    @SuppressWarnings("unchecked")
+    private void readUserLoginInfo() throws FileNotFoundException, IOException, ClassNotFoundException{
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(userLoginInfoPath));
+        userPasswords = (Map<String, String>) ois.readObject();
+    }
+    public void saveUserData(User user){
+        fileLoader.writeFile(user, userDataDir + user.getUsername());
+    }
     public User getUserData(String username){
         try {
-            return fileLoader.readUser(username);
+            User user = fileLoader.readUser(userDataDir + username);
+            return user;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
     }
-    public void setUser(User user){
-        this.user = user;
+
+
+
+    public String getUserPassword(String username){
+       return userPasswords.get(username);
     }
 
-
-
-    public List<Card> getSampleCards() {
-        List<Card> cards = new ArrayList<>();
-        for(int i = 0; i < 10; i++){
-            Card card = new Card(
-                String.format("Front content %d", i + 1),
-                String.format("Back content %d", i + 1),
-                LocalDateTime.now().toString()
-            );
-        }
-        return cards;
+    public void createNewAccountData(String username, String password){
+        userPasswords.put(username, password);
+        User user = new User(username, password);
+        saveUserData(user);
+        
     }
+    public void writeLoginInfo() throws IOException{
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(userLoginInfoPath));
+        oos.writeObject(userPasswords);
+    }
+
+    public Set<String> getAllUsername(){
+        return userPasswords.keySet();
+    }
+
+    
 
 }

@@ -9,14 +9,18 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 
 import com.noface.flashcard.model.Card;
-import com.noface.flashcard.utils.FileGenerator;
-
+import com.noface.flashcard.utils.GenerateSample;
 public class TestSaveFile {
    public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
       TestSaveFile test = new TestSaveFile();
-      test.testData();
+      // test.testData();
+      test.writeSampleLogin();
 
       
+   }
+   public void writeSampleLogin() throws FileNotFoundException, IOException{
+     GenerateSample fileGenerator = new GenerateSample();
+     fileGenerator.generateSampleUserFile();
    }
 
    public void testWriteCard() throws FileNotFoundException, IOException{
@@ -38,7 +42,7 @@ public class TestSaveFile {
 
    public void testData() throws FileNotFoundException, IOException, ClassNotFoundException{
       String username = "KhongPhaiLaHiep";
-      FileGenerator generator = new FileGenerator();
+      GenerateSample generator = new GenerateSample();
       generator.generateUser(username);
       System.out.println(generator.readSampleUser(username));
 

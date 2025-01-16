@@ -1,6 +1,7 @@
 package com.noface.flashcard;
 
 import com.noface.flashcard.cardLibrary.CardLibraryController;
+import com.noface.flashcard.screenNavigation.MainController;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -14,7 +15,7 @@ public class TestLibraryScreen extends Application{
       Scene scene = new  Scene(controller.getScreen().getRoot());
       stage.setScene(scene);
       stage.show();
-      controller.loadData("KhongPhaiLaHiep");
+//       controller.loadData("KhongPhaiLaHiep");
    }
    public static void main(String[] args) {
       launch(args);
