@@ -24,12 +24,12 @@ public class LoginScreen {
     private Button loginButton;
     @FXML
     private Button registerButton;
-    private LoginRegisterController controller;
+    private UserUtilitiesController controller;
     private RegisterScreen registerScreen;
 
     private FXMLLoader loader;
         private MainScreen mainScreen;
-        public LoginScreen(LoginRegisterController controller) throws IOException {
+        public LoginScreen(UserUtilitiesController controller) throws IOException {
             loader = new FXMLLoader(this.getClass().getResource("LoginScreen.fxml"));
             System.out.println(loader);
             loader.setController(this);

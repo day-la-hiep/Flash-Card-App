@@ -40,8 +40,8 @@ public class RegisterScreen {
     TextField phone;
 
     private FXMLLoader loader;
-    private LoginRegisterController controller;
-    public RegisterScreen(LoginRegisterController loginRegisterController) throws IOException {
+    private UserUtilitiesController controller;
+    public RegisterScreen(UserUtilitiesController loginRegisterController) throws IOException {
         loader = new FXMLLoader(this.getClass().getResource("RegisterScreen.fxml"));
         loader.setController(this);
         loader.load();

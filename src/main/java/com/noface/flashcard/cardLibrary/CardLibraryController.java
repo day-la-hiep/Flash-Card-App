@@ -8,14 +8,20 @@ import java.util.Map;
 import com.noface.flashcard.cardLearning.CardLearningController;
 import com.noface.flashcard.model.Card;
 import com.noface.flashcard.model.User;
+import com.noface.flashcard.utils.ResourceLoader;
 
 import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 
 public class CardLibraryController {
+   private ObjectProperty<User> userProperty = new SimpleObjectProperty<>();
    private CardLibraryScreen screen;
    private CardLearningController cardLearningController;
    private Map<String, List<Card>> data;
@@ -24,9 +30,28 @@ public class CardLibraryController {
    private String currentTopic;
 
    public CardLibraryController() throws IOException {
+      userProperty.bind(ResourceLoader.getInstance().getUserProperty());
       cardLearningController = new CardLearningController();
       screen = new CardLibraryScreen(this, cardLearningController);
+      userProperty.addListener(new ChangeListener<User>() {
 
+         @Override
+         public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+            if(newValue != null){
+               topicProperties.clear();
+               cardProperties.clear();
+               data = userProperty.get().getCards();
+               for(String topic : data.keySet()){
+                  topicProperties.add(new SimpleStringProperty(topic));
+               }
+               if(topicProperties.size() > 0){
+                  currentTopic = topicProperties.get().get(0).get();
+                  cardProperties.addAll(data.get(currentTopic));
+               }
+            }
+         }
+         
+      });
    }
 
    public CardLibraryScreen getScreen() {
@@ -41,19 +66,6 @@ public class CardLibraryController {
       return cardProperties;
    }
 
-   public void loadData(User user) {
-      topicProperties.clear();
-      cardProperties.clear();
-      data = user.getCards();
-      System.out.println(user);
-      for (String topic : data.keySet()) {
-         topicProperties.add(new SimpleStringProperty(topic));
-      }
-      if (topicProperties.size() > 0) {
-         currentTopic = topicProperties.get().get(0).get();
-         cardProperties.addAll(data.get(currentTopic));
-      }
-   }
 
    public void setCardsByTopic(String name) {
       currentTopic = name;

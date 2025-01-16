@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.noface.flashcard.cardLibrary.CardLibraryController;
 import com.noface.flashcard.model.User;
-import com.noface.flashcard.userUtilities.LoginRegisterController;
+import com.noface.flashcard.userUtilities.UserUtilitiesController;
 import com.noface.flashcard.utils.ResourceLoader;
 
 import javafx.scene.Parent;
@@ -14,9 +14,8 @@ import javafx.stage.Stage;
 public class MainController {
     private MainScreen mainScreen;
     private CardLibraryController cardLibraryController;
-    private LoginRegisterController loginRegisterController;
+    private UserUtilitiesController loginRegisterController;
     private Stage mainStage;
-    private User currentUser;
     public CardLibraryController getCardLibraryController() {
         return cardLibraryController;
     }
@@ -30,21 +29,21 @@ public class MainController {
     public MainScreen getMainScreen() {
         return mainScreen;
     }
-    public MainController(CardLibraryController cardLibraryController, LoginRegisterController loginRegisterController) throws IOException{
+    public MainController(CardLibraryController cardLibraryController, UserUtilitiesController loginRegisterController) throws IOException{
         mainScreen = new MainScreen(this);
         this.cardLibraryController = cardLibraryController;
         this.loginRegisterController = loginRegisterController;
         mainScreen.setLibraryScreen(cardLibraryController.getScreen());
         mainScreen.setLoginScreen(loginRegisterController.getLoginScreen());
+        mainScreen.setProfileScreen(loginRegisterController.getProfileScreen());
         loginRegisterController.getLoginScreen().setMainScreen(mainScreen);
     }
     public void startSession(String username){
-        User user = ResourceLoader.getInstance().getUserData(username);
-        currentUser = user;
-        cardLibraryController.loadData(user);
+        ResourceLoader.getInstance().setCurrentUser(username);
+        
     }
     public void endSession() {
-        ResourceLoader.getInstance().saveUserData(currentUser);
+        ResourceLoader.getInstance().setCurrentUser(null);
     }
 
 }

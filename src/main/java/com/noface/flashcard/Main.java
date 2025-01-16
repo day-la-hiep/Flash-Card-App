@@ -2,7 +2,7 @@ package com.noface.flashcard;
 
 import com.noface.flashcard.cardLibrary.CardLibraryController;
 import com.noface.flashcard.screenNavigation.MainController;
-import com.noface.flashcard.userUtilities.LoginRegisterController;
+import com.noface.flashcard.userUtilities.UserUtilitiesController;
 import com.noface.flashcard.utils.ResourceLoader;
 
 import javafx.application.Application;
@@ -25,16 +25,16 @@ public class Main extends Application {
       // primaryStage.show();
       ResourceLoader.getInstance();
 
-      LoginRegisterController loginRegisterController = new LoginRegisterController();
+      UserUtilitiesController userUtilitiesController = new UserUtilitiesController();
 
       CardLibraryController cardLibraryController = new CardLibraryController();
 
-      MainController mainController = new MainController(cardLibraryController, loginRegisterController);
+      MainController mainController = new MainController(cardLibraryController, userUtilitiesController);
       mainController.setMainStage(primaryStage);
 
-      loginRegisterController.setMainController(mainController);
+      userUtilitiesController.setMainController(mainController);
 
-      Parent root = loginRegisterController.getLoginScreen().getRoot();
+      Parent root = userUtilitiesController.getLoginScreen().getRoot();
       Scene scene = new Scene(root);
       primaryStage.setScene(scene);
       primaryStage.show();

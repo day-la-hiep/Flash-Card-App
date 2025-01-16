@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.noface.flashcard.cardLibrary.CardLibraryScreen;
 import com.noface.flashcard.userUtilities.LoginScreen;
+import com.noface.flashcard.userUtilities.ProfileScreen;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,6 +48,14 @@ public class MainScreen {
 
     private CardLibraryScreen libraryScreen;
 
+    private ProfileScreen profileScreen;
+
+    public void setProfileScreen(ProfileScreen profileScreen){
+        this.profileScreen = profileScreen;
+    }
+
+
+
     @FXML
     private Button gameButton;
 
@@ -78,6 +87,9 @@ public class MainScreen {
         libraryButton.setOnAction(e -> {
             changeToLibraryScreen();
         });
+        profileButton.setOnAction(e -> {
+            changeToProfileScreen();
+        });
     }
 
     public void changeToLibraryScreen(){
@@ -88,6 +100,11 @@ public class MainScreen {
         rightPane.getChildren().clear();
         Parent loginScreenRoot = loginScreen.getRoot();
         mainStage.setScene(loginScreenRoot.getScene());
+    }
+
+    public void changeToProfileScreen(){
+        rightPane.getChildren().clear();
+        rightPane.getChildren().add((Node) profileScreen.getRoot());
     }
 
     private Stage mainStage;

@@ -12,7 +12,11 @@ import java.util.Set;
 
 import com.noface.flashcard.model.User;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
 public class ResourceLoader {
+    private ObjectProperty<User> userProperety;
     private final String userLoginInfoPath = "account-data/login-info.dat";
     private final String userDataDir = "data/";
     private Map<String, String> userPasswords = new HashMap<>();
@@ -20,8 +24,9 @@ public class ResourceLoader {
     FileLoader fileLoader = new FileLoader();
 
     public static ResourceLoader getInstance() {
-        if(resourceLoader == null){
+        if (resourceLoader == null) {
             resourceLoader = new ResourceLoader();
+            resourceLoader.userProperety = new SimpleObjectProperty<>();
             try {
                 resourceLoader.readUserLoginInfo();
                 System.out.println("So luong user: " + resourceLoader.userPasswords.size());
@@ -31,20 +36,23 @@ public class ResourceLoader {
         }
         return resourceLoader;
     }
-    public void saveAllData(){
-        
+
+    public void saveAllData() {
+
     }
 
     @SuppressWarnings("unchecked")
-    private void readUserLoginInfo() throws FileNotFoundException, IOException, ClassNotFoundException{
+    private void readUserLoginInfo() throws FileNotFoundException, IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(userLoginInfoPath));
         userPasswords = (Map<String, String>) ois.readObject();
         ois.close();
     }
-    public void saveUserData(User user){
+
+    public void saveUserData(User user) {
         fileLoader.writeFile(user, userDataDir + user.getUsername());
     }
-    public User getUserData(String username){
+
+    private User getUserData(String username) {
         try {
             User user = fileLoader.readUser(userDataDir + username);
             return user;
@@ -54,28 +62,48 @@ public class ResourceLoader {
         return null;
     }
 
-
-
-    public String getUserPassword(String username){
-       return userPasswords.get(username);
-    }
-
-    public void createNewAccountData(String username, String password) throws IOException{
+    public void createNewAccountData(String username, String password) throws IOException {
         userPasswords.put(username, password);
         User user = new User(username, password);
         saveUserData(user);
         updateUserPasswordToFile();
     }
-    public void updateUserPasswordToFile() throws IOException{
+
+    private void updateUserPasswordToFile() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(userLoginInfoPath));
         oos.writeObject(userPasswords);
         oos.close();
     }
 
-    public Set<String> getAllUsername(){
-        return userPasswords.keySet();
+    private void updateUserPassword(String username, String password) throws IOException {
+        userPasswords.put(username, password);
+        updateUserPasswordToFile();
     }
 
-    
+    public boolean isValidUsername(String username) {
+        for (String currentName : userPasswords.keySet()) {
+            if (username.equals(currentName)) {
+                return false;
+            }
+        }
 
+        return true;
+    }
+    public boolean authenticate(String username, String password){
+        if(!userPasswords.keySet().contains(username)){
+            return false;
+        }
+        return userPasswords.get(username).equals(password);
+    }
+
+    public void updateUser() throws IOException {
+        saveUserData(userProperety.get());
+        updateUserPassword(userProperety.get().getUsername(), userProperety.get().getPassword());
+    }
+    public ObjectProperty<User> getUserProperty(){
+        return userProperety;
+    }
+    public void setCurrentUser(String username){
+        userProperety.set(getUserData(username));
+    }
 }
