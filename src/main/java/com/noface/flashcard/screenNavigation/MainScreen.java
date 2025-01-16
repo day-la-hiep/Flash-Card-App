@@ -96,13 +96,13 @@ public class MainScreen {
         rightPane.getChildren().clear();
         rightPane.getChildren().add((Node) libraryScreen.getRoot());
     }
-    public void changeToLoginScreen(){
+    private void changeToLoginScreen(){
         rightPane.getChildren().clear();
         Parent loginScreenRoot = loginScreen.getRoot();
         mainStage.setScene(loginScreenRoot.getScene());
     }
 
-    public void changeToProfileScreen(){
+    private void changeToProfileScreen(){
         rightPane.getChildren().clear();
         rightPane.getChildren().add((Node) profileScreen.getRoot());
         profileScreen.changeToDefaultStatus();

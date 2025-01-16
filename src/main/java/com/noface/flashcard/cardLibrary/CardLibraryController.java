@@ -99,7 +99,7 @@ public class CardLibraryController {
       topicProperties.add(new SimpleStringProperty(newValue));
    }
 
-   public boolean isInvalidTopicName(String newName) {
+   private boolean isInvalidTopicName(String newName) {
       for (StringProperty name : topicProperties.get()) {
          if (name.get().equals(newName)) {
             return false;
@@ -125,7 +125,4 @@ public class CardLibraryController {
       }
    }
 
-   public void saveData() {
-
-   }
 }

@@ -48,9 +48,9 @@ public class CardLearningScreen {
     public <T> T getRoot(){
         return loader.getRoot();
     }
-    ObjectProperty<Card> card;
-    Binding<String> frontContent;
-    Binding<String> backContent;
+    private ObjectProperty<Card> card;
+    private Binding<String> frontContent;
+    private Binding<String> backContent;
 
 
 
@@ -71,10 +71,10 @@ public class CardLearningScreen {
         backView.setEditable(false);
     }
 
-    public final long[] repetitionTimes = {60, 360, 600, 3 * 24 * 60 * 60};
+    private final long[] repetitionTimes = {60, 360, 600, 3 * 24 * 60 * 60};
     private List<Button> selectRepetitionButtons = new ArrayList<>();
-    public final String[] repetitionLabels = {"Again - 1 minutes", "Hard - 6 minutes", "Good - 10 minutes", "Easy - 3 days"};
-    public void configCustomScreenComponent(){
+    private final String[] repetitionLabels = {"Again - 1 minutes", "Hard - 6 minutes", "Good - 10 minutes", "Easy - 3 days"};
+    private void configCustomScreenComponent(){
         cardEditButton.setOnAction(e -> {
             editCardDialog.setCard(card.get());
             editCardDialog.showAndWait();
@@ -108,7 +108,7 @@ public class CardLearningScreen {
         }
     }
 
-    public void createBinding(){
+    private void createBinding(){
         card = new SimpleObjectProperty<>();
         card.bind(controller.cardProperty());
         card.addListener((observable, oldValue, newValue) -> {
@@ -121,20 +121,20 @@ public class CardLearningScreen {
         });
     }
 
-    public void changeToBackCardShowedState(){
+    private void changeToBackCardShowedState(){
         frontView.setVisible(true);
         backView.setVisible(true);
         doneButtonBar.setVisible(true);
         showAnswerButton.setVisible(false);
     }
 
-    public void changeToBackCardHidedState(){
+    private void changeToBackCardHidedState(){
         frontView.setVisible(true);
         backView.setVisible(false);
         doneButtonBar.setVisible(false);
         showAnswerButton.setVisible(true);
     }
-    public void changeToDoneLearningState(){
+    private void changeToDoneLearningState(){
         System.out.println("Done learning");
         mainLearningArea.setVisible(false);
         doneLearningLabel.setVisible(true);

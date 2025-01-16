@@ -92,7 +92,7 @@ public class ProfileScreen {
         genderTF.setEditable(false);
     }
 
-    public void changeToEditUserPropertyStatus() {
+    private void changeToEditUserPropertyStatus() {
         saveCancelBar.setVisible(true);
         editChangePasswordBar.setVisible(false);
         nameTF.setEditable(true);

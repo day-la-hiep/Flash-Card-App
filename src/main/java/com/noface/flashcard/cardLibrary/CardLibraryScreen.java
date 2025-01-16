@@ -120,7 +120,7 @@ public class CardLibraryScreen implements Initializable {
       });
    }
 
-   public void bindingTableToController(CardLibraryController controller) {
+   private void bindingTableToController(CardLibraryController controller) {
       topicTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
       cardTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -211,14 +211,14 @@ public class CardLibraryScreen implements Initializable {
       return loader.getRoot();
    }
 
-   public void disableScreen() {
+   private void disableScreen() {
       Parent root = getRoot();
       Scene scene = root.getScene();
       Stage stage = (Stage) scene.getWindow();
       stage.setOpacity(0);
    }
 
-   public void showScreen() {
+   private void showScreen() {
       Parent root = getRoot();
       Scene scene = root.getScene();
       Stage stage = (Stage) scene.getWindow();
