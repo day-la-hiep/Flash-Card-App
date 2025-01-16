@@ -70,6 +70,7 @@ public class CardLearningController {
     public void startLearn(List<Card> data){
         System.out.println("Start learn");
         System.out.println(data.size());
+        cards.clear();
         cards.addAll(data);
         for(Card c : data){
             System.out.println(c);

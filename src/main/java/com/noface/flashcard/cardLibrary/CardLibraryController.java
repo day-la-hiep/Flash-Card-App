@@ -37,20 +37,20 @@ public class CardLibraryController {
 
          @Override
          public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
-            if(newValue != null){
+            if (newValue != null) {
                topicProperties.clear();
                cardProperties.clear();
                data = userProperty.get().getCards();
-               for(String topic : data.keySet()){
+               for (String topic : data.keySet()) {
                   topicProperties.add(new SimpleStringProperty(topic));
                }
-               if(topicProperties.size() > 0){
+               if (topicProperties.size() > 0) {
                   currentTopic = topicProperties.get().get(0).get();
                   cardProperties.addAll(data.get(currentTopic));
                }
             }
          }
-         
+
       });
    }
 
@@ -66,7 +66,6 @@ public class CardLibraryController {
       return cardProperties;
    }
 
-
    public void setCardsByTopic(String name) {
       currentTopic = name;
       cardProperties.clear();
@@ -74,7 +73,7 @@ public class CardLibraryController {
    }
 
    public void startLearn() {
-      cardLearningController.startLearn(cardProperties);
+      cardLearningController.startLearn(cardProperties.get());
    }
 
    public void renameCurrentTopicTo(String newValue) throws Exception {
@@ -123,6 +122,11 @@ public class CardLibraryController {
          data.get(currentTopic).add(card);
          cardProperties.add(card);
       }
+   }
+
+   public void removeCard(Card card) {
+      data.get(currentTopic).remove(card);
+      cardProperties.remove(card);
    }
 
 }
