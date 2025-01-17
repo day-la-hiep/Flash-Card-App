@@ -4,43 +4,64 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="754.0" stylesheets="@CardLibraryScreen.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <SplitPane dividerPositions="0.2526595744680851" layoutX="24.0" layoutY="66.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.33643617021276595" layoutX="24.0" layoutY="66.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-            <VBox>
+            <VBox alignment="CENTER" styleClass="left-vbox">
                <children>
-                  <HBox>
+                  <HBox alignment="CENTER" prefHeight="117.0" prefWidth="230.0">
                      <children>
-                        <Button fx:id="learnButton" mnemonicParsing="false" text="Learn" />
-                        <Button fx:id="renameButton" mnemonicParsing="false" text="Rename" />
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="39.0" styleClass="vbox" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Button fx:id="learnButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="68.0" text="Learn" />
+                              <Button fx:id="deleteTopicButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="126.0" text="Delete" />
+                           </children>
+                        </VBox>
+                        <ImageView fitHeight="108.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/proptit.png" />
+                           </image>
+                        </ImageView>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="39.0" styleClass="vbox" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Button fx:id="renameButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Rename" />
+                              <Button fx:id="addTopicButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Add" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
-                  <HBox>
-                     <children>
-                        <Button fx:id="deleteTopicButton" mnemonicParsing="false" text="Delete" />
-                        <Button fx:id="addTopicButton" mnemonicParsing="false" text="Add" />
-                     </children>
-                  </HBox>
-                  <TableView fx:id="topicTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="topicTable" prefHeight="564.0" prefWidth="230.0" styleClass="topicTable" VBox.vgrow="ALWAYS">
                     <columns>
                       <TableColumn prefWidth="75.0" text="Topic" />
                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                </children>
             </VBox>
-            <TableView fx:id="cardTable" prefHeight="200.0" prefWidth="200.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="Name" />
-                <TableColumn prefWidth="75.0" text="Front Content" />
-                  <TableColumn prefWidth="75.0" text="Back Content" />
-                  <TableColumn prefWidth="75.0" text="DueTime" />
-              </columns>
-            </TableView>
+            <VBox styleClass="right-vbox">
+               <children>
+                  <TableView fx:id="cardTable" prefHeight="200.0" prefWidth="200.0" styleClass="cardTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="Name" />
+                      <TableColumn prefWidth="75.0" text="Front Content" />
+                        <TableColumn prefWidth="75.0" text="Back Content" />
+                        <TableColumn prefWidth="75.0" text="DueTime" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </VBox>
          </items>
       </SplitPane>
    </children>

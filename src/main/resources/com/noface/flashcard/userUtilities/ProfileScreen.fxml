@@ -41,12 +41,12 @@
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
                   <Label styleClass="text" text="DATE OF BIRTH:" />
-                  <DatePicker fx:id="dobTF" prefHeight="35.0" prefWidth="498.0" />
+                  <DatePicker fx:id="dobTF" prefHeight="35.0" prefWidth="498.0" styleClass="date-picker" />
                   <HBox alignment="CENTER">
                      <children>
                         <StackPane>
                            <children>
-                              <HBox fx:id="saveCancelBar" alignment="CENTER">
+                              <HBox fx:id="saveCancelBar" alignment="CENTER" styleClass="bottom-bar">
                                  <children>
                                     <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="69.0" prefWidth="79.0" styleClass="button_edit" text="Save">
                                        <cursor>
@@ -60,14 +60,14 @@
                                     </Button>
                                  </children>
                               </HBox>
-                              <HBox fx:id="editChangePasswordBar">
+                              <HBox fx:id="editChangePasswordBar" styleClass="bottom-bar">
                                  <children>
                                     <Button fx:id="editButton" mnemonicParsing="false" prefHeight="69.0" prefWidth="79.0" styleClass="button_edit" text="Edit">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Button>
-                                    <Button fx:id="changePasswordButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="165.0" styleClass="button_edit" text="Change password">
+                                    <Button fx:id="changePasswordButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="140.0" styleClass="button_edit" text="Change password">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>

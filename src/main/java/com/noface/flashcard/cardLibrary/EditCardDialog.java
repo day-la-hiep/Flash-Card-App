@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 public class EditCardDialog {
    private Card card;
-   @FXML 
+   @FXML
    private TextArea frontContent;
    @FXML
    private TextArea backContent;
@@ -32,23 +32,28 @@ public class EditCardDialog {
    @FXML
    private Button cancelButton;
    private FXMLLoader loader;
-   public EditCardDialog() throws IOException{
+   private CardLibraryController controller;
+
+   public EditCardDialog() throws IOException {
       loader = new FXMLLoader(this.getClass().getResource("CardEditingScreen.fxml"));
       loader.setController(this);
       loader.load();
    }
+
    @FXML
-   public void initialize(){
-      
+   public void initialize() {
+
       saveButton.setOnAction(e -> {
          LocalDateTime newDueTime = dueDatePicker.getValue().atStartOfDay();
-         card.dueTimeProperty().set(newDueTime.toString().trim());;
+         card.dueTimeProperty().set(newDueTime.toString().trim());
+         ;
          card.frontContentProperty().set(frontContent.getText().trim());
          card.backContentProperty().set(backContent.getText().trim());
-         if(card.dueTimeProperty().get() != "" && card.backContentProperty().get() != ""
-               && card.frontContentProperty().get() != ""){
-                  closeWindow();
-         }else{
+         if (card.dueTimeProperty().get() != "" && card.backContentProperty().get() != ""
+               && card.frontContentProperty().get() != "") {
+            controller.addCardToCurrentTopic(card);
+            closeWindow();
+         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setContentText("Invalid card property, please try again");
             alert.show();
@@ -59,12 +64,14 @@ public class EditCardDialog {
          closeWindow();
       });
    }
-   public void closeWindow(){
+
+   public void closeWindow() {
       Scene scene = cancelButton.getScene();
       Stage stage = (Stage) scene.getWindow();
       stage.close();
    }
-   public void setCard(Card card){
+
+   public void setCard(Card card) {
       this.card = card;
       frontContent.setText(card.getFrontContent());
       backContent.setText(card.getBackContent());
@@ -72,18 +79,30 @@ public class EditCardDialog {
       LocalDate date = LocalDate.of(cardDueTime.getYear(), cardDueTime.getMonthValue(), cardDueTime.getDayOfMonth());
       dueDatePicker.setValue(date);
    }
-   public <T> T getRoot(){
+
+   public void addCard(Card card, CardLibraryController controller){
+      this.card = card;
+      frontContent.setText(card.getFrontContent());
+      backContent.setText(card.getBackContent());
+      LocalDateTime cardDueTime = LocalDateTime.parse(card.getDueTime());
+      LocalDate date = LocalDate.of(cardDueTime.getYear(), cardDueTime.getMonthValue(), cardDueTime.getDayOfMonth());
+      dueDatePicker.setValue(date); 
+      controller.addCardToCurrentTopic(card);
+   }
+
+   public <T> T getRoot() {
       return loader.getRoot();
    }
-   public void showAndWait(){
+
+   public void showAndWait() {
       Parent root = getRoot();
-      if(root.getScene() == null){
+      if (root.getScene() == null) {
          Scene scene = new Scene(root);
       }
       root.getScene().setOnKeyPressed(e -> {
-         if(e.getCode() == KeyCode.ESCAPE){
+         if (e.getCode() == KeyCode.ESCAPE) {
             closeWindow();
-         }else if(e.getCode() == KeyCode.ENTER){
+         } else if (e.getCode() == KeyCode.ENTER) {
             saveButton.fire();
          }
       });
@@ -92,7 +111,5 @@ public class EditCardDialog {
       stage.initModality(Modality.APPLICATION_MODAL);
       stage.showAndWait();
    }
-
-   
 
 }
