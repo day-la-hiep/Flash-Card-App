@@ -33,5 +33,8 @@ public class Main extends Application {
       Scene scene = new Scene(root);
       primaryStage.setScene(scene);
       primaryStage.show();
+      primaryStage.setOnCloseRequest(e -> {
+         mainController.endSession();
+      });
    }
 }

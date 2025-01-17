@@ -3,30 +3,49 @@ package com.noface.flashcard.screenNavigation;
 import java.io.IOException;
 
 import com.noface.flashcard.cardLibrary.CardLibraryScreen;
+import com.noface.flashcard.game.WordCombineGameController;
 import com.noface.flashcard.userUtilities.LoginScreen;
 import com.noface.flashcard.userUtilities.ProfileScreen;
 
+import com.noface.flashcard.game.WordCombineGameScreen;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainScreen {
+    @FXML
+    private Button gameButton;
+    @FXML
+    private VBox leftVBox;
+    @FXML
+    private Button logoutButton;
+    @FXML
+    private Button profileButton;
+    @FXML
+    private AnchorPane rightPane;
+    @FXML
+    private Button libraryButton;
+
     private FXMLLoader loader;
     private MainController mainController;
+    private CardLibraryScreen libraryScreen;
+    private ProfileScreen profileScreen;
+    private WordCombineGameScreen wordCombineGameScreen;
+
     public MainScreen(MainController mainController) throws IOException {
         loader = new FXMLLoader(this.getClass().getResource("MainScreen.fxml"));
         loader.setController(this);
         loader.load();
         this.mainController = mainController;
     }
-
     private LoginScreen loginScreen;
+
+
     public LoginScreen getLoginScreen() {
         return loginScreen;
     }
@@ -41,39 +60,14 @@ public class MainScreen {
         return libraryScreen;
     }
 
-
     public void setLibraryScreen(CardLibraryScreen libraryScreen) {
         this.libraryScreen = libraryScreen;
     }
 
-    private CardLibraryScreen libraryScreen;
-
-    private ProfileScreen profileScreen;
 
     public void setProfileScreen(ProfileScreen profileScreen){
         this.profileScreen = profileScreen;
     }
-
-
-
-    @FXML
-    private Button gameButton;
-
-    @FXML
-    private VBox leftVBox;
-
-    @FXML
-    private Button logoutButton;
-
-    @FXML
-    private Button profileButton;
-
-    @FXML
-    private AnchorPane rightPane;
-
-    @FXML
-    private Button libraryButton;
-    
     
     public <T> T getRoot() {
         return loader.getRoot();
@@ -90,8 +84,22 @@ public class MainScreen {
         profileButton.setOnAction(e -> {
             changeToProfileScreen();
         });
+        gameButton.setOnAction(e -> {
+            changeToGameScreen();
+        });
     }
 
+    public void changeToGameScreen(){
+        WordCombineGameController controller = null;
+        try{
+            controller = new WordCombineGameController(this.mainController.getCardLibraryController());
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        rightPane.getChildren().clear();
+        rightPane.getChildren().add((Node) controller.getScreen().getRoot());
+    }
     public void changeToLibraryScreen(){
         AnchorPane.setTopAnchor(libraryScreen.getRoot(), (double) 0);
         AnchorPane.setBottomAnchor(libraryScreen.getRoot(), (double) 0);
@@ -110,6 +118,14 @@ public class MainScreen {
         rightPane.getChildren().clear();
         rightPane.getChildren().add((Node) profileScreen.getRoot());
         profileScreen.changeToDefaultStatus();
+    }
+
+    public WordCombineGameScreen getWordCombineGameScreen() {
+        return wordCombineGameScreen;
+    }
+
+    public void setWordCombineGameScreen(WordCombineGameScreen wordCombineGameScreen) {
+        this.wordCombineGameScreen = wordCombineGameScreen;
     }
 
     private Stage mainStage;

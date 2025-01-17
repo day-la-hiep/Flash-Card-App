@@ -3,6 +3,7 @@ package com.noface.flashcard.screenNavigation;
 import java.io.IOException;
 
 import com.noface.flashcard.cardLibrary.CardLibraryController;
+import com.noface.flashcard.game.WordCombineGameController;
 import com.noface.flashcard.userUtilities.UserUtilitiesController;
 import com.noface.flashcard.utils.ResourceLoader;
 
@@ -13,19 +14,7 @@ public class MainController {
     private CardLibraryController cardLibraryController;
     private UserUtilitiesController loginRegisterController;
     private Stage mainStage;
-    public CardLibraryController getCardLibraryController() {
-        return cardLibraryController;
-    }
-    public void setCardLibraryController(CardLibraryController cardLibraryController) {
-        this.cardLibraryController = cardLibraryController;
-    }
-    public void setMainStage(Stage mainStage) {
-        this.mainStage = mainStage;
-        mainScreen.setMainStage(mainStage);
-    }
-    public MainScreen getMainScreen() {
-        return mainScreen;
-    }
+
     public MainController(CardLibraryController cardLibraryController, UserUtilitiesController loginRegisterController) throws IOException{
         mainScreen = new MainScreen(this);
         this.cardLibraryController = cardLibraryController;
@@ -40,12 +29,28 @@ public class MainController {
         
     }
     public void endSession() {
-        try {
-            ResourceLoader.getInstance().updateCurrentUser();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(ResourceLoader.getInstance().getUserProperty().get() != null){
+            try {
+                ResourceLoader.getInstance().updateCurrentUser();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         ResourceLoader.getInstance().setCurrentUser(null);
+    }
+
+    public CardLibraryController getCardLibraryController() {
+        return cardLibraryController;
+    }
+    public void setCardLibraryController(CardLibraryController cardLibraryController) {
+        this.cardLibraryController = cardLibraryController;
+    }
+    public void setMainStage(Stage mainStage) {
+        this.mainStage = mainStage;
+        mainScreen.setMainStage(mainStage);
+    }
+    public MainScreen getMainScreen() {
+        return mainScreen;
     }
 
 }

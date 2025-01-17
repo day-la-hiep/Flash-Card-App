@@ -2,6 +2,7 @@ package com.noface.flashcard.cardLibrary;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,7 @@ public class CardLibraryController {
       userProperty.bind(ResourceLoader.getInstance().getUserProperty());
       cardLearningController = new CardLearningController();
       screen = new CardLibraryScreen(this, cardLearningController);
+      data = new HashMap<>();
       userProperty.addListener(new ChangeListener<User>() {
 
          @Override
@@ -129,4 +131,7 @@ public class CardLibraryController {
       cardProperties.remove(card);
    }
 
+   public Map<String, List<Card>> getData() {
+      return data;
+   }
 }
