@@ -93,12 +93,18 @@ public class MainScreen {
         WordCombineGameController controller = null;
         try{
             controller = new WordCombineGameController(this.mainController.getCardLibraryController());
+
         }
         catch(IOException e){
             e.printStackTrace();
         }
         rightPane.getChildren().clear();
-        rightPane.getChildren().add((Node) controller.getScreen().getRoot());
+        Node node = controller.getScreen().getRoot();
+        AnchorPane.setTopAnchor(node, 0.0);
+        AnchorPane.setBottomAnchor(node, 0.0);
+        AnchorPane.setLeftAnchor(node, 0.0);
+        AnchorPane.setRightAnchor(node, 0.0);
+        rightPane.getChildren().add(node);
     }
     public void changeToLibraryScreen(){
         AnchorPane.setTopAnchor(libraryScreen.getRoot(), (double) 0);
@@ -115,6 +121,11 @@ public class MainScreen {
     }
 
     private void changeToProfileScreen(){
+        Node node = profileScreen.getRoot();
+        AnchorPane.setTopAnchor(node, (double) 0);
+        AnchorPane.setBottomAnchor(node, (double) 0);
+        AnchorPane.setLeftAnchor(node, (double) 0);
+        AnchorPane.setRightAnchor(node, (double) 0);
         rightPane.getChildren().clear();
         rightPane.getChildren().add((Node) profileScreen.getRoot());
         profileScreen.changeToDefaultStatus();

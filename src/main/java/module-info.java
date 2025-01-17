@@ -15,7 +15,6 @@ module com.noface.flashcard {
     opens com.noface.flashcard.userUtilities to javafx.fxml;
     opens com.noface.flashcard.cardLibrary to javafx.fxml;
     opens com.noface.flashcard.screenNavigation to javafx.fxml;
-    opens com.noface.flashcard.wordCombineGame to javafx.fxml;
     opens com.noface.flashcard to javafx.fxml;
     opens com.noface.flashcard.game to javafx.fxml;
 

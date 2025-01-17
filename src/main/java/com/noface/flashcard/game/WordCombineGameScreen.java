@@ -74,7 +74,7 @@ public class WordCombineGameScreen {
     public WordCombineGameScreen(WordCombineGameController controller) throws IOException {
         this.controller = controller;
         words.bind(controller.wordsProperty());
-        loader = new FXMLLoader(this.getClass().getResource("/com/noface/flashcard/wordCombineGame/WordCombineGameScreen.fxml"));
+        loader = new FXMLLoader(getClass().getResource("WordCombineGameScreen.fxml"));
         loader.setController(this);
         loader.load();
     }

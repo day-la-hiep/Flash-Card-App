@@ -69,7 +69,7 @@
                   </StackPane>
                </children>
             </HBox>
-            <Separator prefHeight="10.0" prefWidth="623.0" />
+            <Separator />
          </children>
       </VBox>
       <HBox fx:id="emptySlotsBox" alignment="CENTER" prefWidth="659.0" spacing="10">
