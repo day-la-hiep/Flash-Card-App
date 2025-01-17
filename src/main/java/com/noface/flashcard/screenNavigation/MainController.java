@@ -29,10 +29,12 @@ public class MainController {
         
     }
     public void endSession() {
-        try {
-            ResourceLoader.getInstance().updateCurrentUser();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(ResourceLoader.getInstance().getUserProperty().get() != null){
+            try {
+                ResourceLoader.getInstance().updateCurrentUser();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         ResourceLoader.getInstance().setCurrentUser(null);
     }
