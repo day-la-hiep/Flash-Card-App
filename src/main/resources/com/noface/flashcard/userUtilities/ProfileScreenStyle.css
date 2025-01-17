@@ -1,0 +1,60 @@
+
+.text{
+    -fx-text-fill: #030315;
+    -fx-font-weight: bold;
+}
+.dob{
+    -fx-text-alignment: center;
+}
+.button{
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #EFEBDC;
+    -fx-border-color: #3976D1;
+    -fx-border-width: 1.2;
+    -fx-text-fill: #072C63;
+}
+.button:hover{
+    -fx-background-color: #F0DF9D;
+}
+.button:pressed{
+    -fx-background-color: #E7BC10;
+}
+.text-field{
+    /*-fx-font-size: 20px;*/
+    -fx-text-fill: #030315;
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 2;
+    -fx-border-color: #3976D1;
+    -fx-font-size: 15px;
+
+}
+.big-vbox{
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+
+}
+.date-picker{
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+.title{
+    -fx-text-fill: #030315;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+}
+.small-vbox{
+    -fx-alignment: center;
+}
+.root-vbox{
+    -fx-background-color: #CDDAED;
+    -fx-padding: 100 160 100 160;
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+}
+.bottom-bar{
+    -fx-spacing: 10px;
+}
+

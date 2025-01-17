@@ -1,0 +1,108 @@
+
+.root{
+    -fx-background-color: #F5EBFF;
+}
+.left-pane{
+    -fx-background-color: #C492F5;
+    -fx-alignment: center;
+    -fx-padding: 25;
+    -fx-border-radius: 30px;
+    -fx-background-radius: 30px;
+}
+.left-pane .vbox{
+    -fx-alignment: left;
+    -fx-padding: 0 0 0 20;
+
+}
+.right-pane{
+    -fx-alignment: center;
+    -fx-background-color: #CDDAED;
+    -fx-padding: 0 100 0 100;
+    -fx-spacing: 10px;
+}
+
+.label{
+    -fx-text-fill: #030315;
+    -fx-font-size: 15px;
+}
+.button{
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #EFEBDC;
+    -fx-border-color: #3976D1;
+    -fx-border-width: 1.2;
+    -fx-text-fill: #072C63;
+}
+.button:hover{
+    -fx-background-color: #F0DF9D;
+}
+.button:pressed{
+    -fx-background-color: #E7BC10;
+}
+
+.nobackground-button{
+    -fx-background-color: transparent;
+    -fx-font-size: 15px;
+    -fx-font-family: "Work Sans SemiBold";
+    -fx-padding: 0px;
+}
+.custom-hbox-2{
+    -fx-pref-height: 40px;
+    -fx-spacing: 10px;
+}
+/* VBox */
+.custom-vbox {
+    -fx-padding: 7;
+    -fx-spacing: 5px;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #3976D1;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-padding: 0 3 0 3;
+    -fx-border-width: 2px;
+}
+
+.combo-box.list-cell {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #333333;
+}
+
+.combo-box .list-cell:selected {
+    -fx-text-fill: #333333;
+}
+.gender-hbox{
+    -fx-alignment: center;
+}
+.text-field {
+    /*-fx-font-size: 20px;*/
+    -fx-text-fill: #030315;
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 2;
+    -fx-border-color: #3976D1;
+    -fx-font-size: 15px;
+}
+.title{
+    -fx-padding: 0 0 15 0;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+.context-menu {
+    -fx-background-color: #fff;
+}
+.context-menu .menu-item{
+    -fx-background-color: #fff;
+
+}
+.context-menu .menu-item:hover{
+    -fx-background-color: #fff;
+}
+.date-picker{
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}

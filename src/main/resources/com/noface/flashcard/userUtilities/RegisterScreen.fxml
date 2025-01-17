@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="root" stylesheets="@SignupScreenStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutX="415.0" layoutY="-1.0" prefHeight="600.0" prefWidth="585.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="600.0" prefWidth="457.0" styleClass="right-pane" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label styleClass="title" text="Create account" />
+                  <TextField id="input_text" fx:id="nameTF" prefHeight="35.0" prefWidth="218.0" promptText="Name">
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                  </TextField>
+                  <TextField id="input_text" fx:id="usernameTF" layoutX="160.0" layoutY="170.0" prefHeight="35.0" prefWidth="218.0" promptText="Username">
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                  </TextField>
+                  <PasswordField id="input_text" fx:id="passwordTF" prefHeight="35.0" prefWidth="218.0" promptText="Password" styleClass="text_input">
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                  </PasswordField>
+                  <PasswordField id="input_text" fx:id="confirmPasswordTF" prefHeight="35.0" prefWidth="218.0" promptText="Confirm password">
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                  </PasswordField>
+                  <VBox prefHeight="26.0" prefWidth="284.0" spacing="5.0">
+                     <children>
+                        <HBox prefHeight="35.0" prefWidth="218.0" spacing="5.0" styleClass="gender-hbox">
+                           <children>
+                              <Label prefHeight="21.0" prefWidth="106.0" text="Dob:" textFill="#878787" />
+                              <DatePicker fx:id="dobTF" prefHeight="37.0" prefWidth="404.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <TextField id="input_text" fx:id="emailTF" prefHeight="35.0" prefWidth="218.0" promptText="Email">
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                  </TextField>
+                  <HBox prefHeight="27.0" prefWidth="218.0" spacing="5.0" styleClass="gender-hbox">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="66.0" text="Gender:" />
+                        <ChoiceBox fx:id="genderTF" prefHeight="35.0" prefWidth="318.0" styleClass="combo-box" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <TextField id="input_text" fx:id="phoneNumberTF" prefHeight="35.0" prefWidth="218.0" promptText="Phone number">
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                  </TextField>
+                  <Button fx:id="registerButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="89.0" text="Sign up" textAlignment="CENTER" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

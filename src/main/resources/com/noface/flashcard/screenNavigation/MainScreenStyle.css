@@ -1,0 +1,56 @@
+.root{
+    -fx-background-color: #F4F4F2;
+}
+
+.left-side-vbox{
+    -fx-max-width: 70px;
+    -fx-min-width: 70px;
+    -fx-border-color: #3976D1;
+    -fx-border-width: 2 2 2 0;
+    -fx-background-color: #efeee6;
+    -fx-background-radius: 0 20 20 0;
+    -fx-border-radius: 0 20 20 0;
+    -fx-padding:  20 10 10 10;
+    -fx-alignment: top center;
+    -fx-spacing: 20;
+}
+.left-side-vbox .button{
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-font-size: 0;
+    -fx-text-fill: transparent;
+}
+
+.left-side-vbox:hover{
+    -fx-max-width: 200px;
+    -fx-min-width: 200px;
+    -fx-background-color: #efeee6;
+    -fx-background-radius: 0 20 20 0;
+    -fx-border-radius: 0 20 20 0;
+    -fx-padding:  20 10 10 10;
+    -fx-alignment: top center;
+    -fx-spacing: 20;
+}
+.left-side-vbox .button-vbox{
+    -fx-alignment: left;
+    -fx-spacing: 20;
+    -fx-padding: 0 0 0 15;
+}
+
+.left-side-vbox:hover .button{
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-font-size: 16;
+}
+.left-side-vbox:hover .button:hover{
+    -fx-border-width:  0 0 0 4;
+    -fx-border-color: #9659D3;
+    -fx-border-insets: 0 0 0 -10;
+}
+.context-menu .menu-item:focused{
+    -fx-background-color: #E1CDF4;
+}
+.menu-item:focused .label {
+    -fx-text-fill: #1F003D;
+}
+
