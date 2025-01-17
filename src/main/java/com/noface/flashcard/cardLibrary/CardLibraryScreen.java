@@ -17,6 +17,7 @@ import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -28,6 +29,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -50,12 +52,13 @@ public class CardLibraryScreen implements Initializable {
    private Button addTopicButton;
    private Button addCardButton;
 
-   private EditCardDialog editCardDialog = new EditCardDialog();
+   private EditCardDialog editCardDialog;
 
    public CardLibraryScreen(CardLibraryController cardLibraryController, CardLearningController cardLearningController)
          throws IOException {
       this.cardLibraryController = cardLibraryController;
       this.cardLearningController = cardLearningController;
+      editCardDialog = new EditCardDialog(cardLibraryController);
       loader = new FXMLLoader(this.getClass().getResource("CardLibraryScreen.fxml"));
       loader.setController(this);
       loader.load();
@@ -69,9 +72,10 @@ public class CardLibraryScreen implements Initializable {
       configureAddTopicButton();
       configureDeleteTopicButton();
    }
-   private void configureAddTopicButton(){
-      
-      addTopicButton.setOnAction(e-> {
+
+   private void configureAddTopicButton() {
+
+      addTopicButton.setOnAction(e -> {
          TextInputDialog dialog = showEnterNameDialog("");
          Optional<String> result = dialog.showAndWait();
          result.ifPresent(name -> {
@@ -83,13 +87,15 @@ public class CardLibraryScreen implements Initializable {
          });
       });
    }
-   private void configureDeleteTopicButton(){
+
+   private void configureDeleteTopicButton() {
       deleteTopicButton.setOnAction(e -> {
          cardLibraryController.removeCurrentTopic();
          cardLibraryController.setCardsByTopic(topicTable.getSelectionModel().getSelectedItem().get());
       });
    }
-   private void configureRenameTopicButton(){
+
+   private void configureRenameTopicButton() {
       renameButton.setOnAction(e -> {
          StringProperty topicProperty = topicTable.getSelectionModel().getSelectedItem();
          if (topicProperty != null) {
@@ -107,7 +113,8 @@ public class CardLibraryScreen implements Initializable {
          }
       });
    }
-   private void configureLearnButton(){
+
+   private void configureLearnButton() {
       learnButton.setOnAction(e -> {
          cardLibraryController.startLearn();
          Parent root = cardLearningController.getScreen().getRoot();
@@ -138,10 +145,47 @@ public class CardLibraryScreen implements Initializable {
          return card.frontContentProperty();
       });
 
-      TableColumn<Card, String> backContentColumn = new TableColumn<>("Back content");
+      // frontContentColumn.setCellFactory(column -> {
+      // TableCell<StringProperty, String> cell = new TableCell<>();
+      // });
+      frontContentColumn.setCellFactory(column -> {
+         TableCell<Card, String> cell = new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+               super.updateItem(item, empty);
+               if (empty || item == null) {
+                  setText(null);
+                  setGraphic(null);
+               } else {
+                  this.setAlignment(Pos.CENTER_LEFT);
+                  setText(item);
+               }
+            }
+         };
+         return cell;
+      });
+
+      TableColumn<Card, String> backContentColumn = new TableColumn<>(
+            "Back content");
       backContentColumn.setCellValueFactory(cellData -> {
          Card card = cellData.getValue();
          return card.backContentProperty();
+      });
+      backContentColumn.setCellFactory(column -> {
+         TableCell<Card, String> cell = new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+               super.updateItem(item, empty);
+               if (empty || item == null) {
+                  setText(null);
+                  setGraphic(null);
+               } else {
+                  this.setAlignment(Pos.CENTER_LEFT);
+                  setText(item);
+               }
+            }
+         };
+         return cell;
       });
 
       TableColumn<Card, String> dueTimeColumn = new TableColumn<>("Due time");
@@ -155,60 +199,96 @@ public class CardLibraryScreen implements Initializable {
          return binding;
       });
 
-      TableColumn<Card, HBox> editButtonColumn = new TableColumn<>();
-      addCardButton = new Button("Add card");
-      addCardButton.setOnAction(e -> {
-         Card card = new Card();
-         editCardDialog.setCard(card);
-         editCardDialog.showAndWait();
-         controller.addCardToCurrentTopic(card);
-      });
-      editButtonColumn.setGraphic(addCardButton);
-      
-      editButtonColumn.setPrefWidth(50);
-      editButtonColumn.setResizable(false);
-      editButtonColumn.setCellValueFactory(cellData -> {
-         Button editButton = new Button("Edit");
-         editButton.setMaxWidth(Double.MAX_VALUE);
-         editButton.setMaxHeight(Double.MAX_VALUE);
-         editButton.setOnAction(e -> {
-            editCardDialog.setCard(cellData.getValue());
-            editCardDialog.showAndWait();
-         });
-
-         Button deleteButton = new Button("Delete");
-         deleteButton.setOnAction(e -> {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            controller.removeCard(cellData.getValue());
-         });
-         HBox bar = new HBox(editButton, deleteButton);
-         return new SimpleObjectProperty<>(bar);
-      });
-
-      cardTable.getColumns().addAll(frontContentColumn, backContentColumn, dueTimeColumn, editButtonColumn);
-
-      topicTable.getColumns().clear();
-
-      TableColumn<StringProperty, String> topicColumn = new TableColumn<>("Topic name");
-      topicColumn.setCellValueFactory(cellData -> {
-         return cellData.getValue();
-      });
-
-      topicColumn.setCellFactory(column -> {
-         TableCell<StringProperty, String> cell = new TableCell<>() {
+      dueTimeColumn.setCellFactory(column -> {
+         TableCell<Card, String> cell = new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                super.updateItem(item, empty);
                if (empty || item == null) {
                   setText(null);
                   setGraphic(null);
-              } else {
-                  setText(item);  
-              }
+               } else {
+                  this.setAlignment(Pos.CENTER_LEFT);
+                  setText(item);
+               }
+            }
+         };
+         return cell;
+      });
+      TableColumn<Card, HBox> editButtonColumn = new TableColumn<>();
+      addCardButton = new Button("Add");
+      HBox box = new HBox(addCardButton);
+      addCardButton.setOnAction(e -> {
+         Card card = new Card();
+         editCardDialog.setCard(card);
+         editCardDialog.showAndWait();
+      });
+      editButtonColumn.setGraphic(addCardButton);
+      addCardButton.setAlignment(Pos.CENTER);
+      
+
+      editButtonColumn.setCellValueFactory(cellData -> {
+         Button editButton = new Button("::");
+         editButton.setOnAction(e -> {
+            editCardDialog.setCard(cellData.getValue());
+            editCardDialog.showAndWait();
+         });
+
+         Button deleteButton = new Button("X");
+         deleteButton.setOnAction(e -> {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            controller.removeCard(cellData.getValue());
+         });
+
+         HBox bar = new HBox(deleteButton, editButton);
+         bar.setSpacing(5);
+         bar.setAlignment(Pos.CENTER);
+         return new SimpleObjectProperty<>(bar);
+      });
+
+      editButtonColumn.setCellFactory(column -> {
+         TableCell<Card, HBox> cell = new TableCell<>() {
+
+            protected void updateItem(HBox hbox, boolean empty) {
+               if(hbox == null || empty){
+                  setText(null);
+                  setGraphic(null);
+               }else{
+                  this.setAlignment(Pos.CENTER);
+                  setGraphic(hbox);
+               }
+            }
+         };
+         return cell;
+      });
+
+      cardTable.getColumns().addAll(frontContentColumn, backContentColumn, dueTimeColumn, editButtonColumn);
+
+      topicTable.getColumns().clear();
+
+      TableColumn<StringProperty, String> topicColumn = new TableColumn<>(
+            "Topic name");
+      topicColumn.setCellValueFactory(cellData -> {
+         return cellData.getValue();
+      });
+
+      topicColumn.setCellFactory(column -> {
+         TableCell<StringProperty, String> cell = new TableCell<>() {
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+               super.updateItem(item, empty);
+               if (empty || item == null) {
+                  setText(null);
+                  setGraphic(null);
+               } else {
+                  this.setAlignment(Pos.CENTER);
+                  setText(item);
+               }
             }
          };
          cell.setOnMouseClicked(e -> {
-            if(cell.getItem() != null){
+            if (cell.getItem() != null) {
                cardLibraryController.setCardsByTopic(cell.getItem());
             }
          });
@@ -235,7 +315,8 @@ public class CardLibraryScreen implements Initializable {
       Stage stage = (Stage) scene.getWindow();
       stage.setOpacity(1);
    }
-   private TextInputDialog showEnterNameDialog(String preText){
+
+   private TextInputDialog showEnterNameDialog(String preText) {
       TextInputDialog dialog = new TextInputDialog();
       dialog.setTitle("New topic name");
       dialog.setHeaderText("Enter your topic name");
