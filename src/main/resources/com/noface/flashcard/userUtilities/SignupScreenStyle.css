@@ -16,8 +16,8 @@
 }
 .right-pane{
     -fx-alignment: center;
-    -fx-background-color: #F5EBFF;
-    -fx-padding: 0 150 0 150;
+    -fx-background-color: #CDDAED;
+    -fx-padding: 0 100 0 100;
     -fx-spacing: 10px;
 }
 
@@ -25,21 +25,19 @@
     -fx-text-fill: #030315;
     -fx-font-size: 15px;
 }
-.button:pressed{
-    -fx-background-color: #561696;
-    -fx-text-fill: #F5EBFF;
-}
 .button{
-    -fx-font-size: 12;
-    -fx-background-radius: 20;
-    -fx-background-color: #9659D3;
-    -fx-text-fill: #F5EBFF;
-    -fx-font-weight: bold;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #EFEBDC;
+    -fx-border-color: #3976D1;
+    -fx-border-width: 1.2;
+    -fx-text-fill: #072C63;
 }
 .button:hover{
-    -fx-text-fill: white;
-    -fx-background-color: #7732BC;
-    -fx-font-weight: bold;
+    -fx-background-color: #F0DF9D;
+}
+.button:pressed{
+    -fx-background-color: #E7BC10;
 }
 
 .nobackground-button{
@@ -60,7 +58,7 @@
 
 .combo-box {
     -fx-background-color: white;
-    -fx-border-color: #C492F5;
+    -fx-border-color: #3976D1;
     -fx-border-radius: 15;
     -fx-background-radius: 15;
     -fx-padding: 0 3 0 3;
@@ -79,12 +77,14 @@
     -fx-alignment: center;
 }
 .text-field {
-    -fx-background-color: #ffffff;
-    -fx-border-radius: 15;
-    -fx-background-radius: 15;
-    -fx-padding: 5px;
-    -fx-border-color: #C492F5;
-    -fx-border-width: 2px;
+    /*-fx-font-size: 20px;*/
+    -fx-text-fill: #030315;
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 2;
+    -fx-border-color: #3976D1;
+    -fx-font-size: 15px;
 }
 .title{
     -fx-padding: 0 0 15 0;
@@ -101,4 +101,8 @@
 }
 .context-menu .menu-item:hover{
     -fx-background-color: #fff;
+}
+.date-picker{
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
 }

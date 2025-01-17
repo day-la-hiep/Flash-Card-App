@@ -1,8 +1,17 @@
-.root-control{
+.root{
+    -fx-background-color:#EFEBDC;
+}
+
+.left-pane{
     -fx-padding: 100 80 100 80;
     -fx-alignment: center;
     -fx-spacing: 15px;
-    -fx-background-color: #F5EBFF;
+    -fx-background-color: transparent
+}
+
+.right-pane{
+   -fx-background-color: #B4CBED;
+   -fx-background-radius: 40 0 0 40;
 }
 .login-title{
     -fx-text-alignment: center;
@@ -15,7 +24,7 @@
     -fx-font-size: 15;
     -fx-background-radius: 30px;
     -fx-border-radius: 30px;
-    -fx-border-color: #9659D3;
+    -fx-border-color: #3976D1;
     -fx-border-width: 2px;
     -fx-padding: 0 10 0 10;
 }
@@ -43,13 +52,13 @@
 }
 .login-button{
     -fx-background-radius: 30px;
-    -fx-background-color: #9659D3;
+    -fx-background-color: #6295e0;
     -fx-text-fill: #F5EBFF;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 2, 3);
 }
 .login-button:hover{
     -fx-background-radius: 30px;
-    -fx-background-color: #561696;
+    -fx-background-color: #3976D1;
     -fx-text-fill: #F5EBFF;
 }
 .login-button:pressed{
@@ -69,11 +78,9 @@
     -fx-text-fill: transparent;
     -fx-padding: 0px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 2, 3);
-    -fx-effect: brightness(1);
 
 }
 .google-login-bar .button:hover .graphic{
-    -fx-effect: brightness(0.7);
 
 }
 

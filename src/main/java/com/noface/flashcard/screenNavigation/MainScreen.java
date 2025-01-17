@@ -101,6 +101,10 @@ public class MainScreen {
         rightPane.getChildren().add((Node) controller.getScreen().getRoot());
     }
     public void changeToLibraryScreen(){
+        AnchorPane.setTopAnchor(libraryScreen.getRoot(), (double) 0);
+        AnchorPane.setBottomAnchor(libraryScreen.getRoot(), (double) 0);
+        AnchorPane.setLeftAnchor(libraryScreen.getRoot(), (double) 0);
+        AnchorPane.setRightAnchor(libraryScreen.getRoot(), (double) 0);
         rightPane.getChildren().clear();
         rightPane.getChildren().add((Node) libraryScreen.getRoot());
     }
