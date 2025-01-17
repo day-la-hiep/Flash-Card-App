@@ -33,11 +33,13 @@ public class EditCardDialog {
    private Button cancelButton;
    private FXMLLoader loader;
    private CardLibraryController controller;
+   
 
-   public EditCardDialog() throws IOException {
+   public EditCardDialog(CardLibraryController controller) throws IOException {
       loader = new FXMLLoader(this.getClass().getResource("CardEditingScreen.fxml"));
       loader.setController(this);
       loader.load();
+      this.controller = controller;
    }
 
    @FXML
@@ -46,7 +48,6 @@ public class EditCardDialog {
       saveButton.setOnAction(e -> {
          LocalDateTime newDueTime = dueDatePicker.getValue().atStartOfDay();
          card.dueTimeProperty().set(newDueTime.toString().trim());
-         ;
          card.frontContentProperty().set(frontContent.getText().trim());
          card.backContentProperty().set(backContent.getText().trim());
          if (card.dueTimeProperty().get() != "" && card.backContentProperty().get() != ""
@@ -80,15 +81,6 @@ public class EditCardDialog {
       dueDatePicker.setValue(date);
    }
 
-   public void addCard(Card card, CardLibraryController controller){
-      this.card = card;
-      frontContent.setText(card.getFrontContent());
-      backContent.setText(card.getBackContent());
-      LocalDateTime cardDueTime = LocalDateTime.parse(card.getDueTime());
-      LocalDate date = LocalDate.of(cardDueTime.getYear(), cardDueTime.getMonthValue(), cardDueTime.getDayOfMonth());
-      dueDatePicker.setValue(date); 
-      controller.addCardToCurrentTopic(card);
-   }
 
    public <T> T getRoot() {
       return loader.getRoot();

@@ -44,7 +44,7 @@ public class CardLearningScreen {
     private Button showAnswerButton;
     @FXML
     private HBox doneButtonBar;
-    private EditCardDialog editCardDialog = new EditCardDialog();
+    private EditCardDialog editCardDialog;
 
     private FXMLLoader loader;
 

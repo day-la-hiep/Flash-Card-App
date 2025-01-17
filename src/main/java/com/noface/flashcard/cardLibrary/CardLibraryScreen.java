@@ -52,12 +52,13 @@ public class CardLibraryScreen implements Initializable {
    private Button addTopicButton;
    private Button addCardButton;
 
-   private EditCardDialog editCardDialog = new EditCardDialog();
+   private EditCardDialog editCardDialog;
 
    public CardLibraryScreen(CardLibraryController cardLibraryController, CardLearningController cardLearningController)
          throws IOException {
       this.cardLibraryController = cardLibraryController;
       this.cardLearningController = cardLearningController;
+      editCardDialog = new EditCardDialog(cardLibraryController);
       loader = new FXMLLoader(this.getClass().getResource("CardLibraryScreen.fxml"));
       loader.setController(this);
       loader.load();
@@ -219,7 +220,7 @@ public class CardLibraryScreen implements Initializable {
       HBox box = new HBox(addCardButton);
       addCardButton.setOnAction(e -> {
          Card card = new Card();
-         editCardDialog.addCard(card, controller);
+         editCardDialog.setCard(card);
          editCardDialog.showAndWait();
       });
       editButtonColumn.setGraphic(addCardButton);
